@@ -1,0 +1,10 @@
+{
+  "name": "congress-alpha",
+  "install": "pip install -e '.[dev]'",
+  "terminals": [
+    {
+      "name": "api",
+      "command": "python -m congress_alpha serve --host 0.0.0.0 --port 8000"
+    }
+  ]
+}

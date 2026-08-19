@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Congress Alpha</title>
+  <style>
+    :root {
+      --bg: #07090f;
+      --card: #11151f;
+      --line: #232a38;
+      --text: #eef2f8;
+      --muted: #8b95a8;
+      --gold: #e4c36a;
+      --green: #3ddc97;
+      --red: #ff6b7a;
+      --blue: #6ea8ff;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; }
+    body { padding: 16px 16px 48px; max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 13px; letter-spacing: 0.22em; color: var(--gold); margin: 8px 0 4px; font-weight: 700; }
+    .score { font-size: 42px; font-weight: 750; letter-spacing: -0.03em; }
+    .label { color: var(--green); font-weight: 700; letter-spacing: 0.08em; font-size: 14px; }
+    .sub { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-top: 14px; }
+    .row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+    .row:last-child { border-bottom: 0; }
+    .tkr { width: 58px; font-weight: 750; }
+    .bar { flex: 1; height: 10px; background: #1c2330; border-radius: 99px; overflow: hidden; }
+    .bar > i { display: block; height: 100%; background: linear-gradient(90deg, #2a6b4a, var(--gold)); }
+    .n { width: 36px; text-align: right; color: var(--gold); font-variant-numeric: tabular-nums; font-weight: 700; }
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .tab { border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 999px; padding: 6px 12px; font-size: 12px; }
+    .tab.on { color: var(--text); border-color: var(--gold); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; color: var(--muted); font-weight: 600; padding: 6px 4px; }
+    td { padding: 7px 4px; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+    .pos { color: var(--green); }
+    .neg { color: var(--red); }
+    .why h2 { margin: 0 0 8px; font-size: 22px; }
+    .why li { margin: 6px 0; }
+    .back { color: var(--gold); cursor: pointer; font-size: 13px; margin-bottom: 8px; }
+    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .m { background: #0c1018; border-radius: 12px; padding: 10px; }
+    .m b { display: block; font-size: 18px; }
+    .m span { color: var(--muted); font-size: 11px; letter-spacing: 0.06em; }
+    .disc { color: var(--muted); font-size: 11px; line-height: 1.45; margin-top: 18px; }
+    button.tab { cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div id="app">loading…</div>
+  <script>
+    let data = null;
+    let view = "home";
+    let ticker = null;
+    let strat = "conviction";
+
+    const $ = (id) => document.getElementById(id);
+
+    function bar(score) {
+      const w = Math.max(4, Math.min(100, score));
+      return `<div class="bar"><i style="width:${w}%"></i></div>`;
+    }
+
+    function pct(x) { return (x * 100).toFixed(1) + "%"; }
+
+    function home() {
+      const top = data.top_signals || [];
+      const port = (data.portfolios || {})[strat] || [];
+      const m = (data.metrics || {})[strat] || {};
+      return `
+        <h1>CONGRESS SIGNAL</h1>
+        <div class="score">${data.score} <span style="font-size:18px;color:#8b95a8">/ 100</span></div>
+        <div class="label">${data.label}</div>
+        <div class="sub">as of ${data.as_of} · event-time · post-disclosure only</div>
+
+        <div class="card">
+          <h1>TOP CONGRESSIONAL SIGNALS</h1>
+          ${top.map(r => `
+            <div class="row" onclick="openWhy('${r.ticker}')">
+              <div class="tkr">${r.ticker}</div>
+              ${bar(r.score)}
+              <div class="n">${r.score}</div>
+            </div>`).join("")}
+        </div>
+
+        <div class="card">
+          <h1>MODEL PORTFOLIO</h1>
+          <div class="tabs">
+            ${["conviction","consensus","momentum"].map(s =>
+              `<button class="tab ${s===strat?"on":""}" onclick="setStrat('${s}')">${s}</button>`
+            ).join("")}
+          </div>
+          ${port.map(r => `
+            <div class="row" onclick="${r.ticker==="CASH"?"":`openWhy('${r.ticker}')`}">
+              <div class="tkr">${r.ticker}</div>
+              ${bar((r.weight||0)*100*4)}
+              <div class="n">${((r.weight||0)*100).toFixed(0)}%</div>
+            </div>`).join("") || "<div class='sub'>no names cleared the gates</div>"}
+        </div>
+
+        <div class="card">
+          <h1>WALK-FORWARD</h1>
+          <div class="metrics">
+            <div class="m"><span>CAGR</span><b>${pct(m.cagr||0)}</b></div>
+            <div class="m"><span>EXCESS</span><b>${pct(m.excess_cagr||0)}</b></div>
+            <div class="m"><span>SHARPE</span><b>${(m.sharpe||0).toFixed(2)}</b></div>
+            <div class="m"><span>MAX DD</span><b>${pct(m.max_dd||0)}</b></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h1>POLITICIAN WEIGHTS w<sub>p,s</sub></h1>
+          <table>
+            <tr><th>name</th><th>all</th><th>def</th><th>tech</th></tr>
+            ${(data.politician_weights||[]).slice(0,8).map(p => `
+              <tr>
+                <td>${p.name.split(" ").slice(-1)[0]}</td>
+                <td>${p.overall.toFixed(2)}</td>
+                <td>${p.defense==null?"—":p.defense.toFixed(2)}</td>
+                <td>${p.tech==null?"—":p.tech.toFixed(2)}</td>
+              </tr>`).join("")}
+          </table>
+        </div>
+
+        <div class="card">
+          <h1>DELAY DECAY</h1>
+          <table>
+            ${Object.entries(data.delay_decay||{}).map(([k,v]) =>
+              `<tr><td>${k} days</td><td>${(v*100).toFixed(0)}% remaining</td></tr>`
+            ).join("")}
+          </table>
+        </div>
+        <p class="disc">${data.disclaimer}</p>
+      `;
+    }
+
+    function why() {
+      const e = (data.explanations || {})[ticker];
+      if (!e) return `<div class="back" onclick="goHome()">← back</div><p>no signal</p>`;
+      return `
+        <div class="back" onclick="goHome()">← CONGRESS SIGNAL</div>
+        <div class="why">
+          <h2>WHY ${e.ticker}?</h2>
+          <div class="score">${e.score} <span style="font-size:16px;color:#8b95a8">/ 100</span></div>
+          <p class="sub">${e.blurb}</p>
+          <div class="card">
+            <ul>
+              ${(e.positives||[]).map(x => `<li class="pos">+ ${x}</li>`).join("")}
+              ${(e.negatives||[]).map(x => `<li class="neg">− ${x}</li>`).join("")}
+            </ul>
+          </div>
+          <div class="card">
+            <h1>CONTRIBUTING FILERS</h1>
+            <table>
+              <tr><th>politician</th><th>side</th><th>lag</th><th>w</th></tr>
+              ${(e.people||[]).map(p => `
+                <tr>
+                  <td>${p.name}${p.committee?" ★":""}</td>
+                  <td>${p.side}</td>
+                  <td>${p.lag_days}d</td>
+                  <td>${p.weight.toFixed(2)}</td>
+                </tr>`).join("")}
+            </table>
+            <p class="sub">★ = relevant committee. Weights are post-disclosure skill, not name recognition.</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function render() {
+      $("app").innerHTML = view === "why" ? why() : home();
+    }
+    function openWhy(t) { ticker = t; view = "why"; render(); }
+    function goHome() { view = "home"; render(); }
+    function setStrat(s) { strat = s; render(); }
+
+    fetch("/api/dashboard")
+      .then(r => r.json())
+      .then(d => { data = d; render(); })
+      .catch(() => { $("app").textContent = "demo not built. run: python -m congress_alpha demo"; });
+  </script>
+</body>
+</html>
