@@ -66,6 +66,52 @@
 
     function pct(x) { return (x * 100).toFixed(1) + "%"; }
 
+    function spark(nav, strat) {
+      const a = (nav && nav[strat]) || [];
+      const b = (nav && nav.spy) || [];
+      if (a.length < 2) return "";
+      const w = 640, h = 90, pad = 4;
+      const ys = a.map(p => p.nav).concat(b.map(p => p.nav));
+      const mn = Math.min(...ys), mx = Math.max(...ys);
+      const sx = (i, n) => pad + (n<=1?0:i*(w-2*pad)/(n-1));
+      const sy = v => pad + (h-2*pad) * (1 - ((v-mn)/Math.max(mx-mn,1e-9)));
+      const line = (arr, color) => {
+        const d = arr.map((p,i) => `${i?"L":"M"}${sx(i,arr.length).toFixed(1)},${sy(p.nav).toFixed(1)}`).join(" ");
+        return `<path d="${d}" fill="none" stroke="${color}" stroke-width="2"/>`;
+      };
+      return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="90">${line(b,"#6ea8ff")}${line(a,"#e4c36a")}</svg>
+        <div class="sub">gold = ${strat} · blue = SPY</div>`;
+    }
+
+    function years(y) {
+      if (!y || !Object.keys(y).length) return "";
+      return `<table style="margin-top:8px"><tr><th>year</th><th>return</th></tr>${
+        Object.entries(y).map(([k,v]) => `<tr><td>${k}</td><td class="${v>=0?"pos":"neg"}">${pct(v)}</td></tr>`).join("")
+      }</table>`;
+    }
+
+    function costSweep(cs) {
+      if (!cs || !Object.keys(cs).length) return "";
+      return `<div class="sub" style="margin-top:8px">COST SWEEP (Sharpe)</div>
+        <table>${Object.entries(cs).map(([k,v]) =>
+          `<tr><td>${k} bp</td><td>${(v.sharpe||0).toFixed(2)}</td></tr>`).join("")}</table>`;
+    }
+
+    function eventStudy(es) {
+      if (!es || !es.by_horizon) return "";
+      const hs = Object.keys(es.by_horizon);
+      const row = (name, cells) => `<tr><td>${name}</td>${hs.map(h => {
+        const c = cells[h];
+        if (!c || !c.n) return "<td>—</td>";
+        return `<td>${(c.mean*100).toFixed(1)}% <span class="sub">t=${c.tstat}</span></td>`;
+      }).join("")}</tr>`;
+      let extra = "";
+      for (const [name, cells] of Object.entries(es.by_skill||{})) extra += row(name, cells);
+      return `<div class="sub" style="margin-top:8px">EVENT STUDY CAR vs SPY</div>
+        <table><tr><th>bucket</th>${hs.map(h=>`<th>${h}d</th>`).join("")}</tr>
+        ${row("all", es.by_horizon)}${extra}</table>`;
+    }
+
     function home() {
       const top = data.top_signals || [];
       const port = (data.portfolios || {})[strat] || [];
@@ -103,12 +149,21 @@
 
         <div class="card">
           <h1>WALK-FORWARD</h1>
+          <div class="sub">next-session fill · costs on · disclosure clock only</div>
+          ${spark(data.nav, strat)}
           <div class="metrics">
             <div class="m"><span>CAGR</span><b>${pct(m.cagr||0)}</b></div>
             <div class="m"><span>EXCESS</span><b>${pct(m.excess_cagr||0)}</b></div>
             <div class="m"><span>SHARPE</span><b>${(m.sharpe||0).toFixed(2)}</b></div>
             <div class="m"><span>MAX DD</span><b>${pct(m.max_dd||0)}</b></div>
+            <div class="m"><span>IR</span><b>${(m.information_ratio||0).toFixed(2)}</b></div>
+            <div class="m"><span>T-STAT</span><b>${(m.tstat_excess||0).toFixed(2)}</b></div>
+            <div class="m"><span>SORTINO</span><b>${(m.sortino||0).toFixed(2)}</b></div>
+            <div class="m"><span>DSR</span><b>${m.deflated_sharpe==null?"—":(m.deflated_sharpe).toFixed(2)}</b></div>
           </div>
+          ${years(m.yearly)}
+          ${costSweep(m.cost_sweep)}
+          ${eventStudy(data.event_study)}
         </div>
 
         <div class="card">

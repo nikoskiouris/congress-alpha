@@ -27,6 +27,12 @@ Open `http://127.0.0.1:8000`. Dashboard is mobile-first.
 
 `demo` builds a **synthetic** Congress (fictional names, planted ground-truth skill), walk-forward backtests three books, writes `data/congress_alpha.db` + `data/dashboard.json`.
 
+```bash
+python -m congress_alpha backtest
+```
+
+Walk-forward is next-session, costed, with Newey-West t-stats, a cost sweep, and a point-in-time event study. It never uses `trade_date` as an event time.
+
 | Book | Rule |
 |---|---|
 | **conviction** | only politicians with historically strong post-disclosure weights |

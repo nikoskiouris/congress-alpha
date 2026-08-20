@@ -20,7 +20,10 @@ def main(argv: list[str] | None = None) -> int:
     serve.add_argument("--host", default="127.0.0.1")
     serve.add_argument("--port", type=int, default=8000)
 
-    sub.add_parser("backtest", help="Print strategy comparison from the last demo")
+    bt = sub.add_parser("backtest", help="Run walk-forward backtest and print the report")
+    bt.add_argument("--seed", type=int, default=7)
+    bt.add_argument("--lag", type=int, default=None, help="execution lag in sessions (default 1)")
+    bt.add_argument("--no-cost", action="store_true", help="zero transaction costs")
 
     args = parser.parse_args(argv)
 
@@ -57,19 +60,36 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.cmd == "backtest":
-        import json
+        from datetime import date
 
-        from congress_alpha.pipeline import DEFAULT_DASH, run_demo
+        from congress_alpha.backtest import run_backtest
+        from congress_alpha.costs import CostModel
+        from congress_alpha.generate import generate
+        from congress_alpha.prices import PriceStore
+        from congress_alpha.report import format_report
 
-        if not DEFAULT_DASH.exists():
-            run_demo()
-        payload = json.loads(DEFAULT_DASH.read_text())
-        print(f"{'strategy':12} {'cagr':>8} {'excess':>8} {'sharpe':>7} {'maxdd':>8}")
-        for name, m in payload["metrics"].items():
-            print(
-                f"{name:12} {m['cagr']:8.1%} {m['excess_cagr']:8.1%} "
-                f"{m['sharpe']:7.2f} {m['max_dd']:8.1%}"
-            )
+        uni = generate(seed=args.seed)
+        store = PriceStore(uni.prices)
+        securities = {s.ticker: s for s in uni.securities}
+        committees = {c.committee_id: c for c in uni.committees}
+        lag = 1 if args.lag is None else args.lag
+        costs = (
+            CostModel(commission_bps=0.0, half_spread_bps=0.0, impact_k=0.0)
+            if args.no_cost
+            else CostModel()
+        )
+        result = run_backtest(
+            uni.trades,
+            securities,
+            uni.politicians,
+            committees,
+            store,
+            start=date(2022, 6, 1),
+            end=uni.end,
+            execution_lag=lag,
+            cost_model=costs,
+        )
+        print(format_report(result))
         return 0
 
     return 1

@@ -45,6 +45,24 @@ CASH = "CASH"
 
 STRATEGIES = ("momentum", "conviction", "consensus")
 
+# Portfolio fills the next session after the signal date. Same-day close would
+# pretend a 4pm filing was tradable at that day's close.
+EXECUTION_LAG_SESSIONS = 1
+# Skill labels use the same entry lag so training matches tradable P&L.
+LABEL_ENTRY_LAG_SESSIONS = 1
+
+# Default research book for market-impact scaling. Not a live AUM claim.
+DEFAULT_AUM = 10_000_000.0
+# Flat one-way cost used in the cost sweep (bps of traded notional).
+COST_SWEEP_BPS = (0.0, 5.0, 10.0, 25.0, 50.0)
+DEFAULT_COMMISSION_BPS = 1.0
+DEFAULT_HALF_SPREAD_BPS = 4.0
+DEFAULT_IMPACT_K = 5.0
+
+# Extra calendar days after a label window closes before the weight may be used.
+# 0 is already nested (end < as_of). Raise this to add a purge gap.
+LABEL_EMBARGO_DAYS = 0
+
 # STOCK Act value bands used when a filing only reports a range.
 AMOUNT_BANDS = (
     (1_001.0, 15_000.0),

@@ -122,3 +122,8 @@ class BacktestPoint:
     excess_return: float
     n_holdings: int
     invested: float
+    gross_return: float = 0.0
+    cost: float = 0.0
+    turnover: float = 0.0
+    cash: float = 0.0
+    signal_date: date | None = None

@@ -7,18 +7,22 @@ A trade is eligible for training only after its evaluation window has closed:
 
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import date, timedelta
 from math import log
 
 import numpy as np
 
+from congress_alpha.calendar import add_trading_days
 from congress_alpha.config import (
     BENCHMARK,
     CONVICTION_REF,
     DELAY_PRIOR_N,
     HORIZON_BLEND,
     HORIZONS,
+    LABEL_EMBARGO_DAYS,
+    LABEL_ENTRY_LAG_SESSIONS,
     LAG_BUCKETS,
     RECENCY_HALFLIFE_DAYS,
     SECTOR_PRIOR_N,
@@ -99,8 +103,16 @@ class SkillBook:
     hit_rate: dict[str, float] = field(default_factory=dict)
 
 
+def label_window(disclosure: date, horizon: int) -> tuple[date, date]:
+    """Tradable window: next session after disclosure, then `horizon` trading days."""
+    entry = add_trading_days(disclosure, LABEL_ENTRY_LAG_SESSIONS)
+    end = add_trading_days(entry, horizon)
+    return entry, end
+
+
 def _completed(trade: TradeEvent, as_of: date, horizon: int) -> bool:
-    return trade.disclosure_date + timedelta(days=int(horizon * 1.5) + 7) < as_of
+    _, end = label_window(trade.disclosure_date, horizon)
+    return end + timedelta(days=LABEL_EMBARGO_DAYS) < as_of
 
 
 def _alpha_map(
@@ -111,8 +123,10 @@ def _alpha_map(
     for tr in trades:
         by_h: dict[int, float | None] = {}
         for h in HORIZONS:
-            end = tr.disclosure_date + timedelta(days=int(h * 1.5))
-            xs = store.excess_return(tr.ticker, tr.disclosure_date, end, BENCHMARK)
+            entry, end = label_window(tr.disclosure_date, h)
+            xs = store.excess_return(
+                tr.ticker, entry, end, BENCHMARK, no_later_than=end
+            )
             if xs is None:
                 by_h[h] = None
             else:
@@ -146,6 +160,10 @@ def fit_skill(
     if politicians:
         pids |= {p.politician_id for p in politicians}
 
+    by_pid: dict[str, list[TradeEvent]] = defaultdict(list)
+    for tr in trades:
+        by_pid[tr.politician_id].append(tr)
+
     rows: list[SkillRow] = []
     overall_w: dict[str, float] = {}
     sector_w: dict[tuple[str, str], float] = {}
@@ -160,6 +178,7 @@ def fit_skill(
     bucket_vals: dict[str, list[tuple[float, float]]] = {b[2]: [] for b in LAG_BUCKETS}
 
     for pid in sorted(pids):
+        mine = by_pid.get(pid, [])
         blended = 0.0
         n_blend = 0.0
         hits = 0.0
@@ -168,9 +187,7 @@ def fit_skill(
         for h, h_w in HORIZON_BLEND.items():
             ws: list[float] = []
             vs: list[float] = []
-            for tr in trades:
-                if tr.politician_id != pid:
-                    continue
+            for tr in mine:
                 if not _completed(tr, as_of, h):
                     continue
                 a = alphas[tr.trade_id].get(h)
@@ -214,15 +231,19 @@ def fit_skill(
             premove_share[pid] = 0.0
 
         # Politician × sector
-        secs = {securities[t.ticker].sector for t in trades if t.politician_id == pid and t.ticker in securities}
+        secs = {
+            securities[t.ticker].sector
+            for t in mine
+            if t.ticker in securities
+        }
         for sec in secs:
             blended_s = 0.0
             n_s = 0.0
             alpha_s = 0.0
             for h, h_w in HORIZON_BLEND.items():
                 ws, vs = [], []
-                for tr in trades:
-                    if tr.politician_id != pid or tr.ticker not in securities:
+                for tr in mine:
+                    if tr.ticker not in securities:
                         continue
                     if securities[tr.ticker].sector != sec:
                         continue

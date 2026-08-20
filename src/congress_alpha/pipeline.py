@@ -140,6 +140,10 @@ def persist_backtest(db_path: Path, result: BacktestResult, securities, politici
                     "excess_return": p.excess_return,
                     "n_holdings": p.n_holdings,
                     "invested": p.invested,
+                    "gross_return": p.gross_return,
+                    "cost": p.cost,
+                    "turnover": p.turnover,
+                    "cash": p.cash,
                 }
             )
     for p in result.spy:
@@ -152,6 +156,10 @@ def persist_backtest(db_path: Path, result: BacktestResult, securities, politici
                 "excess_return": 0.0,
                 "n_holdings": 1,
                 "invested": 1.0,
+                "gross_return": p.gross_return,
+                "cost": 0.0,
+                "turnover": 0.0,
+                "cash": 0.0,
             }
         )
     if nav_rows:
@@ -228,31 +236,61 @@ def dashboard_payload(result: BacktestResult, securities, politicians, store: Pr
         pts = result.spy if strat == "spy" else result.strategies[strat].nav
         return [{"date": p.date.isoformat(), "nav": round(p.nav, 4)} for p in pts]
 
-    metrics = {}
-    for strat, res in result.strategies.items():
-        metrics[strat] = {
-            "cagr": round(res.cagr, 4),
-            "excess_cagr": round(res.excess_cagr, 4),
-            "vol": round(res.vol, 4),
-            "sharpe": round(res.sharpe, 3),
-            "max_dd": round(res.max_dd, 4),
-            "hit_weeks": round(res.hit_weeks, 3),
-            "avg_holdings": round(res.avg_holdings, 2),
-            "turnover": round(res.turnover, 3),
+    def pack_metrics(res) -> dict:
+        s = res.stats
+        def r(x, n=4):
+            if x is None:
+                return None
+            try:
+                if x != x:  # nan
+                    return None
+            except Exception:
+                return None
+            return round(float(x), n)
+
+        return {
+            "cagr": r(s.cagr),
+            "excess_cagr": r(s.excess_cagr),
+            "vol": r(s.vol),
+            "sharpe": r(s.sharpe, 3),
+            "max_dd": r(s.max_dd),
+            "hit_weeks": r(s.hit_rate, 3),
+            "avg_holdings": r(s.avg_holdings, 2),
+            "turnover": r(s.turnover, 3),
+            "sortino": r(s.sortino, 3),
+            "calmar": r(s.calmar, 3),
+            "information_ratio": r(s.information_ratio, 3),
+            "tstat_excess": r(s.tstat_excess, 2),
+            "pvalue_excess": r(s.pvalue_excess, 4),
+            "beta": r(s.beta, 3),
+            "alpha_ann": r(s.alpha_ann),
+            "deflated_sharpe": r(s.deflated_sharpe, 3),
+            "sharpe_ci": [r(s.sharpe_ci_low, 2), r(s.sharpe_ci_high, 2)],
+            "avg_invested": r(s.avg_invested, 3),
+            "turnover_ann": r(s.turnover_ann, 3),
+            "avg_cost": r(s.avg_cost, 5),
+            "max_dd_days": s.max_dd_days,
+            "var_5": r(s.var_5),
+            "cvar_5": r(s.cvar_5),
+            "skew": r(s.skew, 3),
+            "kurtosis": r(s.kurtosis, 3),
+            "yearly": {k: round(v, 4) for k, v in s.yearly.items()},
+            "cost_sweep": res.cost_sweep,
         }
+
+    metrics = {strat: pack_metrics(res) for strat, res in result.strategies.items()}
     if result.spy:
-        spy0, spy1 = 1.0, result.spy[-1].nav
-        years = max((result.spy[-1].date - result.spy[0].date).days / 365.25, 1e-6)
-        metrics["spy"] = {
-            "cagr": round((spy1 / spy0) ** (1 / years) - 1.0, 4),
-            "excess_cagr": 0.0,
-            "vol": 0.0,
-            "sharpe": 0.0,
-            "max_dd": 0.0,
-            "hit_weeks": 0.0,
-            "avg_holdings": 1,
-            "turnover": 0.0,
-        }
+        import numpy as np
+
+        from congress_alpha.metrics import evaluate
+
+        rets = np.array([p.daily_return for p in result.spy], dtype=float)
+        dates = [p.date for p in result.spy]
+        spy_stats = evaluate(rets, np.zeros_like(rets), dates, avg_holdings=1, avg_invested=1.0)
+        dummy = type("S", (), {"stats": spy_stats, "cost_sweep": {}})()
+        metrics["spy"] = pack_metrics(dummy)
+        metrics["spy"]["excess_cagr"] = 0.0
+        metrics["spy"]["information_ratio"] = 0.0
 
     return {
         "as_of": as_of.isoformat(),
@@ -265,9 +303,16 @@ def dashboard_payload(result: BacktestResult, securities, politicians, store: Pr
         "delay_decay": {k: round(v, 3) for k, v in book.delay_remaining.items()},
         "nav": {s: series(s) for s in list(result.strategies) + ["spy"]},
         "metrics": metrics,
+        "event_study": result.snapshots.get("event_study") or {},
+        "execution": {
+            "lag_sessions": result.execution_lag,
+            "cost_model": result.cost_model,
+            "leakage": result.leakage,
+        },
         "disclaimer": (
             "Synthetic demonstration. Not investment advice. "
-            "Signals are computed from disclosure_date, never trade_date."
+            "Signals are computed from disclosure_date, never trade_date. "
+            "Backtest fills next session after the signal date and pays spread/impact costs."
         ),
     }
 

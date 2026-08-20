@@ -109,5 +109,9 @@ CREATE TABLE backtest_nav (
     excess_return   REAL NOT NULL,
     n_holdings      INTEGER NOT NULL,
     invested        REAL NOT NULL,
+    gross_return    REAL,
+    cost            REAL,
+    turnover        REAL,
+    cash            REAL,
     PRIMARY KEY (date, strategy)
 );

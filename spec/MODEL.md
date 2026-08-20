@@ -122,12 +122,18 @@ for each Wednesday t after warmup:
     fit w_{p,s} and DelayDecay using trades with closed label windows < t
     build Signal_i from trades with disclosure_date ≤ t
     apply gates → portfolio P_t
-    realize returns from t → next Wednesday on P_t
+    fill P_t at t + 1 trading session (next close)
+    realize close-to-close returns from previous fill → this fill
+    pay spread + commission + sqrt-impact on traded notional
 ```
 
-Warmup is first disclosure + 180 days so 120-day labels exist. No shuffling. No expanding window that includes the holding period. Nested: labels used at `t` are returns that finished before `t`.
+Warmup is first disclosure + 180 days so 120-day labels exist. No shuffling. Nested: labels used at `t` are returns that finished before `t`. Label windows are `horizon` trading days starting the session after `disclosure_date`.
 
-**Forbidden:** measuring politician “skill” from `trade_date`, filling signals on `trade_date`, using same-day close on `disclosure_date` as if you had seen the filing at the open without a next-session rule. V1 prices the holding period from rebalance date closes (weekly), which is conservative.
+**Forbidden:** measuring politician “skill” from `trade_date`, filling signals on `trade_date`, using same-day close on `disclosure_date` as if you had seen the filing at the open without a next-session rule.
+
+**Diagnostics the engine always prints:** Newey-West t-stat of excess, bootstrap Sharpe CI, deflated Sharpe (3 books), yearly returns, cost sweep 0–50 bps, and a point-in-time event study (post-disclosure CAR by skill bucket using the last weight known *before* the filing).
+
+A working `cheat_backtest_on_trade_date` is intentionally not implemented.
 
 ## 6. Graph (V1 tables, V2 features)
 

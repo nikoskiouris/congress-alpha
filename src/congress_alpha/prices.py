@@ -16,10 +16,20 @@ class PriceStore:
         for ticker, dt in prices:
             by_ticker.setdefault(ticker, []).append(dt)
         self._dates = {t: sorted(ds) for t, ds in by_ticker.items()}
+        self.last_date: date | None = None
+        if prices:
+            self.last_date = max(dt for _, dt in prices)
 
-    def get(self, ticker: str, dt: date) -> float | None:
+    def get(
+        self,
+        ticker: str,
+        dt: date,
+        no_later_than: date | None = None,
+    ) -> float | None:
         key = (ticker, dt)
         if key in self._px:
+            if no_later_than is not None and dt > no_later_than:
+                return None
             return self._px[key]
         dates = self._dates.get(ticker)
         if not dates:
@@ -34,18 +44,45 @@ class PriceStore:
                 hi = mid
         if lo >= len(dates):
             return None
-        return self._px[(ticker, dates[lo])]
+        found = dates[lo]
+        if no_later_than is not None and found > no_later_than:
+            return None
+        return self._px[(ticker, found)]
 
     def return_between(self, ticker: str, start: date, end: date) -> float | None:
-        a = self.get(ticker, next_trading_day(start))
-        b = self.get(ticker, next_trading_day(end))
+        a = self.get(ticker, next_trading_day(start), no_later_than=end)
+        b = self.get(ticker, next_trading_day(end), no_later_than=end)
         if a is None or b is None or a <= 0:
             return None
         return b / a - 1.0
 
-    def excess_return(self, ticker: str, start: date, end: date, benchmark: str = "SPY") -> float | None:
-        r = self.return_between(ticker, start, end)
-        m = self.return_between(benchmark, start, end)
+    def holding_return(
+        self,
+        ticker: str,
+        start: date,
+        end: date,
+        *,
+        no_later_than: date | None = None,
+    ) -> float | None:
+        """Close-to-close. Missing prints do not fill past `no_later_than`."""
+        cap = no_later_than if no_later_than is not None else end
+        a = self.get(ticker, start, no_later_than=cap)
+        b = self.get(ticker, end, no_later_than=cap)
+        if a is None or b is None or a <= 0:
+            return None
+        return b / a - 1.0
+
+    def excess_return(
+        self,
+        ticker: str,
+        start: date,
+        end: date,
+        benchmark: str = "SPY",
+        *,
+        no_later_than: date | None = None,
+    ) -> float | None:
+        r = self.holding_return(ticker, start, end, no_later_than=no_later_than)
+        m = self.holding_return(benchmark, start, end, no_later_than=no_later_than)
         if r is None or m is None:
             return None
         return r - m
@@ -56,7 +93,7 @@ class PriceStore:
         for j, tkr in enumerate(tickers):
             prev = None
             for i, dt in enumerate(dates):
-                px = self.get(tkr, dt)
+                px = self.get(tkr, dt, no_later_than=dt)
                 if px is None:
                     continue
                 if prev is not None and prev > 0:
