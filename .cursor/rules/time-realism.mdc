@@ -1,0 +1,14 @@
+---
+description: Event-time law. disclosure_date only. Never trade_date as as-of.
+alwaysApply: true
+---
+
+# Time realism
+
+Backtest, skill, signals, ingest, UI copy: event time is `disclosure_date`.
+
+`trade_date` is only for lag and already-moved. Filling or training as-of `trade_date` is a bug. Revert it.
+
+`cheat_backtest_on_trade_date` must stay unimplemented.
+
+Synthetic DGP and ingested research files are not a live track record. Do not remove watermarks.

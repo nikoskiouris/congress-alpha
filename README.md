@@ -115,3 +115,11 @@ python -m congress_alpha brief --dash data/dashboard.json --out data/research_br
 This is research software, not advice. Demo data is fictional on purpose.
 
 See [spec/MODEL.md](spec/MODEL.md) for schema, training, walk-forward rules, and the three-strategy protocol.
+
+## Director loop (phone)
+
+New Cursor chat. Type **`go`**. That is the whole instruction.
+
+The agent is technical product owner. It picks the next ticket from `ops/`, briefs engineer subagents, tests, and **auto-merges to main**. It does not wait for you. Constitution: `AGENTS.md`. Board: `python3 ops/next.py`.
+
+Other one-liners: `status` · `idea …` · `fix` · `stop`.
