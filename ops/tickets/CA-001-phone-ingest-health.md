@@ -2,7 +2,7 @@
 id: CA-001
 title: Phone ingest-health card
 priority: P0
-status: ready
+status: done
 type: feature
 effort: M
 merge: auto
@@ -19,10 +19,10 @@ Leadership will screenshot the phone demo and ask if the data is real. Home scre
 `data/ingest_report.json` exists after ingest and is gitignored. API/UI never show n_read / n_rejected / top reasons. Demo looks like a live book.
 
 ## Done when
-- [ ] `GET /api/ingest` returns `{mode, n_read, n_accepted, n_rejected, reasons[]}` and synthetic demo returns zeros + `mode=synthetic`
-- [ ] Phone home has a small INGEST card under the banner
-- [ ] Tests cover synthetic vs a fixture ingest report
-- [ ] Banner text still says SYNTHETIC DEMO or RESEARCH FILE
+- [x] `GET /api/ingest` returns `{mode, n_read, n_accepted, n_rejected, reasons[]}` and synthetic demo returns zeros + `mode=synthetic`
+- [x] Phone home has a small INGEST card under the banner
+- [x] Tests cover synthetic vs a fixture ingest report
+- [x] Banner text still says SYNTHETIC DEMO or RESEARCH FILE
 
 ## Likely files
 `src/congress_alpha/api.py`, `frontend/index.html`, `src/congress_alpha/pipeline.py`, `tests/test_api.py` (new ok)
