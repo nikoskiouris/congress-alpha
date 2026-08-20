@@ -168,3 +168,16 @@ Replace `tanh` weights with:
 - hierarchical Bayesian `w_{p,s}`
 
 Same labels. Same walk-forward. Same prohibition on `trade_date` as event time.
+
+## 10. Research-product on-ramp (this sprint)
+
+V1 engine is complete on a planted DGP. Live congressional alpha is **not** measured.
+
+Before estimators change:
+
+1. **Ingest** official-style PTR JSON + adj-close CSV into the warehouse. Reject options, missing clocks, `disclosure_date < trade_date`, unparsed bands, unmapped tickers. Never silent-default a size.
+2. **Run from warehouse** (`python -m congress_alpha run`). Same event clock as the synthetic demo.
+3. **Falsify** the conviction book with equal-skill, no-delay-decay, and permuted-skill ablations. If placebo beats the book, do not present skill as a finding.
+4. **Brief** (`data/research_brief.md`) is the leadership memo. Watermark: not a live track record.
+
+AWS and ML wait until several years of clean point-in-time filings exist.

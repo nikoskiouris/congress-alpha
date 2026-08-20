@@ -85,11 +85,12 @@ Conviction uses a **log geometric midpoint** of the STOCK Act band. A $15,001–
 
 ```
 spec/schema.sql          point-in-time warehouse
-spec/MODEL.md            formulas, training, backtest rules
+spec/MODEL.md            formulas, training, backtest, ingest rules
 infra/aws.md             V1 AWS/Python architecture
-src/congress_alpha/      engine, API, synthetic DGP
+src/congress_alpha/      engine, ingest, ablations, API, synthetic DGP
+data/fixtures/           fictional watcher JSON + prices for ingest tests
 frontend/index.html      Congress Signal UI
-tests/                   look-ahead + skill recovery
+tests/                   look-ahead, skill recovery, ingest, ablations
 ```
 
 ## Real filings later

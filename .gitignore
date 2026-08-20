@@ -6,6 +6,7 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 data/*.db
+data/ingest_report.json
 !data/.gitkeep
 dist/
 build/

@@ -126,6 +126,40 @@ def test_cli_brief_command(tmp_path):
     assert "conviction" in text
 
 
+def test_run_from_db_on_fixtures(tmp_path):
+    from datetime import date
+    from pathlib import Path
+
+    from congress_alpha.ingest import apply_ingest
+    from congress_alpha.pipeline import run_from_db
+
+    repo = Path(__file__).resolve().parents[1] / "data" / "fixtures"
+    db = tmp_path / "fx.db"
+    apply_ingest(
+        db,
+        trades_path=repo / "trades_ok.json",
+        prices_path=repo / "prices.csv",
+        source="house-stock-watcher",
+        politicians_path=repo / "politicians.json",
+        securities_path=repo / "securities.json",
+        committees_path=repo / "committees.json",
+        reset=True,
+    )
+    payload = run_from_db(
+        db_path=db,
+        dash_path=tmp_path / "dash.json",
+        brief_path=tmp_path / "brief.md",
+        run_ablations=True,
+        start=date(2023, 6, 1),
+    )
+    assert payload["mode"] == "ingested"
+    assert "disclosure_date" in payload["disclaimer"]
+    assert (tmp_path / "brief.md").exists()
+    text = (tmp_path / "brief.md").read_text()
+    assert "INGESTED RESEARCH FILE" in text
+    assert "trade_date never" in text
+
+
 def test_run_from_db_rejects_empty_warehouse(tmp_path):
     from congress_alpha.pipeline import run_from_db
     from congress_alpha.warehouse import reset_db

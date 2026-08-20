@@ -308,6 +308,8 @@ def run_backtest(
     ]
     if len(rebalance) < 8:
         rebalance = [d for d in sessions if d >= warmup][::5]
+    if not rebalance:
+        raise ValueError("no rebalance dates after warmup; need more history")
 
     holdings: dict[str, dict[str, float]] = {s: {} for s in STRATEGIES}
     last_port: dict[str, Portfolio | None] = {s: None for s in STRATEGIES}

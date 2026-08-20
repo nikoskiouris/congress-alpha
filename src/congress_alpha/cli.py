@@ -104,7 +104,7 @@ def main(argv: list[str] | None = None) -> int:
 
         from congress_alpha.costs import CostModel
         from congress_alpha.generate import generate
-        from congress_alpha.pipeline import _invoke_backtest
+        from congress_alpha.backtest import run_backtest
         from congress_alpha.prices import PriceStore
         from congress_alpha.report import format_report
 
@@ -118,7 +118,7 @@ def main(argv: list[str] | None = None) -> int:
             if args.no_cost
             else CostModel()
         )
-        result = _invoke_backtest(
+        result = run_backtest(
             uni.trades,
             securities,
             uni.politicians,

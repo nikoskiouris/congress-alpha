@@ -31,17 +31,6 @@ DEFAULT_DASH = Path("data/dashboard.json")
 DEFAULT_BRIEF = Path("data/research_brief.md")
 
 
-def _invoke_backtest(*args, run_ablations: bool = True, **kwargs):
-    """Call run_backtest. Always pass run_ablations; tolerate engines that lack it yet."""
-    try:
-        return run_backtest(*args, run_ablations=run_ablations, **kwargs)
-    except TypeError as exc:
-        msg = str(exc).lower()
-        if "run_ablations" not in msg and "unexpected keyword" not in msg:
-            raise
-        return run_backtest(*args, **kwargs)
-
-
 def persist_universe(db_path: Path, seed: int = 7):
     uni = generate(seed=seed)
     con = reset_db(db_path)
@@ -364,7 +353,7 @@ def run_demo(
     committees = {c.committee_id: c for c in uni.committees}
     # Start research window after prices exist.
     bt_start = date(2022, 6, 1)
-    result = _invoke_backtest(
+    result = run_backtest(
         uni.trades,
         securities,
         uni.politicians,
@@ -419,7 +408,7 @@ def run_from_db(
             "warehouse has no prices; ingest adj-close CSV first "
             "(python -m congress_alpha ingest --trades ... --prices ...)"
         )
-    result = _invoke_backtest(
+    result = run_backtest(
         trades,
         securities,
         politicians,
@@ -431,6 +420,10 @@ def run_from_db(
         cost_model=CostModel(),
         run_ablations=run_ablations,
     )
+    if result.snapshots.get("book") is None:
+        raise ValueError(
+            "backtest produced no skill book; need more history after the 180-day warmup"
+        )
     persist_backtest(db_path, result, securities, politicians)
     payload = dashboard_payload(result, securities, politicians, store, mode="ingested")
     dash_path.parent.mkdir(parents=True, exist_ok=True)

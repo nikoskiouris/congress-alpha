@@ -58,18 +58,35 @@ def permute_skill_book(book: SkillBook, rng: np.random.Generator) -> SkillBook:
         return replace(book, overall=dict(book.overall), sector=dict(book.sector))
 
     order = rng.permutation(len(pids))
-    new_overall = {
-        pids[i]: book.overall[pids[int(order[i])]] for i in range(len(pids))
-    }
 
-    # Same identity permutation: dest pids[i] receives src pids[order[i]]'s sector map.
-    new_sector: dict[tuple[str, str], float] = {}
-    for i, dest in enumerate(pids):
-        src = pids[int(order[i])]
-        for (pid, sec), weight in book.sector.items():
-            if pid == src:
-                new_sector[(dest, sec)] = weight
-    return replace(book, overall=new_overall, sector=new_sector)
+    def remap_pid(src: dict) -> dict:
+        out = {}
+        for i, dest in enumerate(pids):
+            donor = pids[int(order[i])]
+            if donor in src:
+                out[dest] = src[donor]
+        return out
+
+    def remap_pid_sector(src: dict) -> dict:
+        out = {}
+        for i, dest in enumerate(pids):
+            donor = pids[int(order[i])]
+            for (pid, sec), val in src.items():
+                if pid == donor:
+                    out[(dest, sec)] = val
+        return out
+
+    return replace(
+        book,
+        overall=remap_pid(book.overall),
+        sector=remap_pid_sector(book.sector),
+        sample_n=remap_pid(book.sample_n),
+        sector_n=remap_pid_sector(book.sector_n),
+        overall_alpha=remap_pid(book.overall_alpha),
+        sector_alpha=remap_pid_sector(book.sector_alpha),
+        hit_rate=remap_pid(book.hit_rate),
+        premove_share=remap_pid(book.premove_share),
+    )
 
 
 def ablation_public(name: str, strategy_result) -> dict:
