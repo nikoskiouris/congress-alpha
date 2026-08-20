@@ -1,0 +1,12 @@
+---
+description: Python engine conventions for congress-alpha.
+globs: src/**/*.py,tests/**/*.py
+alwaysApply: false
+---
+
+# Engine code
+
+- Event clock: `disclosure_date`. Tests in `tests/test_lookahead.py` stay green.
+- Ingest: reject bad rows; never silent-default amount bands.
+- New behavior needs a test next to the existing suite (`pytest`).
+- No ML, no AWS, unless the ticket is CA-009/CA-010 and unblocked.
