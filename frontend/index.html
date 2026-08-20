@@ -54,6 +54,7 @@
   <div id="app">loading…</div>
   <script>
     let data = null;
+    let ingest = null;
     let view = "home";
     let ticker = null;
     let strat = "conviction";
@@ -140,12 +141,36 @@
       return `<div class="banner">${text}</div>`;
     }
 
+    function ingestCard() {
+      const ing = ingest || {mode: "synthetic", n_read: 0, n_accepted: 0, n_rejected: 0, reasons: []};
+      const nRead = ing.n_read || 0;
+      const nAcc = ing.n_accepted || 0;
+      const nRej = ing.n_rejected || 0;
+      const counts = `${nRead} read · ${nAcc} accepted · ${nRej} rejected`;
+      if ((ing.mode || "synthetic") !== "ingested") {
+        return `<div class="card">
+          <h1>INGEST</h1>
+          <div class="sub">${counts}</div>
+          <div class="sub">synthetic — no filings</div>
+        </div>`;
+      }
+      const rows = (ing.reasons || []).map(r =>
+        `<tr><td>${r.reason}</td><td>${r.n}</td></tr>`
+      ).join("");
+      return `<div class="card">
+        <h1>INGEST</h1>
+        <div class="sub">${counts}</div>
+        ${rows ? `<table><tr><th>reason</th><th>n</th></tr>${rows}</table>` : ""}
+      </div>`;
+    }
+
     function home() {
       const top = data.top_signals || [];
       const port = (data.portfolios || {})[strat] || [];
       const m = (data.metrics || {})[strat] || {};
       return `
         ${banner()}
+        ${ingestCard()}
         <h1>CONGRESS SIGNAL</h1>
         <div class="score">${data.score} <span style="font-size:18px;color:#8b95a8">/ 100</span></div>
         <div class="label">${data.label}</div>
@@ -263,9 +288,12 @@
     function goHome() { view = "home"; render(); }
     function setStrat(s) { strat = s; render(); }
 
-    fetch("/api/dashboard")
-      .then(r => r.json())
-      .then(d => { data = d; render(); })
+    Promise.all([
+      fetch("/api/dashboard").then(r => r.json()),
+      fetch("/api/ingest").then(r => r.json()).catch(() => ({
+        mode: "synthetic", n_read: 0, n_accepted: 0, n_rejected: 0, reasons: [], note: "synthetic DGP"
+      })),
+    ]).then(([d, ing]) => { data = d; ingest = ing; render(); })
       .catch(() => { $("app").textContent = "demo not built. run: python -m congress_alpha demo"; });
   </script>
 </body>

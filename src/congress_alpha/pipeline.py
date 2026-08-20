@@ -28,6 +28,7 @@ from congress_alpha.warehouse import (
 
 DEFAULT_DB = Path("data/congress_alpha.db")
 DEFAULT_DASH = Path("data/dashboard.json")
+DEFAULT_INGEST_REPORT = Path("data/ingest_report.json")
 DEFAULT_BRIEF = Path("data/research_brief.md")
 
 
