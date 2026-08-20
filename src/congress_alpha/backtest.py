@@ -17,6 +17,13 @@ from datetime import date, timedelta
 
 import numpy as np
 
+from congress_alpha.ablation import (
+    ABLATION_NAMES,
+    ablation_public,
+    equal_skill_book,
+    no_delay_book,
+    permute_skill_book,
+)
 from congress_alpha.calendar import add_trading_days, daterange_trading
 from congress_alpha.config import (
     BENCHMARK,
@@ -107,6 +114,7 @@ class BacktestResult:
     execution_lag: int = EXECUTION_LAG_SESSIONS
     cost_model: str = ""
     leakage: dict = field(default_factory=dict)
+    ablations: dict = field(default_factory=dict)
 
 
 def leakage_audit(trades: list[TradeEvent], last_as_of: date) -> dict:
@@ -285,6 +293,8 @@ def run_backtest(
     rebalance_weekday: int = 2,
     execution_lag: int = EXECUTION_LAG_SESSIONS,
     cost_model: CostModel | None = None,
+    run_ablations: bool = False,
+    ablation_seed: int = 7,
 ) -> BacktestResult:
     cost_model = cost_model or CostModel()
     sessions = daterange_trading(start, end)
@@ -309,10 +319,16 @@ def run_backtest(
     entry_traded = {s: 0.0 for s in STRATEGIES}
     cache = precompute_trade_alphas(trades, store)
 
+    ab_holdings: dict[str, dict[str, float]] = {n: {} for n in ABLATION_NAMES}
+    ab_last_port: dict[str, Portfolio | None] = {n: None for n in ABLATION_NAMES}
+    ab_periods: dict[str, list[_Period]] = {n: [] for n in ABLATION_NAMES}
+    ab_entry_cost = {n: 0.0 for n in ABLATION_NAMES}
+    ab_entry_traded = {n: 0.0 for n in ABLATION_NAMES}
+
     prev_exec: date | None = None
     last_signal = rebalance[0]
 
-    for signal_date in rebalance:
+    for week_index, signal_date in enumerate(rebalance):
         exec_date = add_trading_days(signal_date, execution_lag)
         if store.last_date is not None and exec_date > store.last_date:
             break
@@ -336,6 +352,35 @@ def run_backtest(
             new_h[strat] = port.weights
             new_cash[strat] = port.cash
 
+        ab_new_h: dict[str, dict[str, float]] = {}
+        ab_new_cash: dict[str, float] = {}
+        if run_ablations:
+            rng = np.random.default_rng(ablation_seed + week_index)
+            shadow = {
+                "equal_skill": equal_skill_book(book),
+                "no_delay_decay": no_delay_book(book),
+                "placebo_skill": permute_skill_book(book, rng),
+            }
+            for name, abook in shadow.items():
+                asigs = build_signals(
+                    signal_date,
+                    trades,
+                    abook,
+                    securities,
+                    politicians,
+                    committees,
+                    store,
+                )
+                port = construct(
+                    signal_date,
+                    "conviction",
+                    asigs.get("conviction", {}),
+                    securities,
+                )
+                ab_last_port[name] = port
+                ab_new_h[name] = port.weights
+                ab_new_cash[name] = port.cash
+
         if prev_exec is None:
             for strat in STRATEGIES:
                 c, traded = cost_model.trade_cost_fraction(
@@ -343,6 +388,14 @@ def run_backtest(
                 )
                 entry_cost[strat] = c
                 entry_traded[strat] = traded
+            if run_ablations:
+                for name in ABLATION_NAMES:
+                    c, traded = cost_model.trade_cost_fraction(
+                        {}, ab_new_h[name], securities
+                    )
+                    ab_entry_cost[name] = c
+                    ab_entry_traded[name] = traded
+                ab_holdings = ab_new_h
             holdings = new_h
             prev_exec = exec_date
             continue
@@ -370,6 +423,28 @@ def run_backtest(
                 )
             )
             holdings[strat] = new_h[strat]
+        if run_ablations:
+            for name in ABLATION_NAMES:
+                gross = _asset_return(
+                    ab_holdings[name], store, prev_exec, exec_date
+                )
+                c, traded = cost_model.trade_cost_fraction(
+                    ab_holdings[name], ab_new_h[name], securities
+                )
+                ab_periods[name].append(
+                    _Period(
+                        exec_date=exec_date,
+                        signal_date=signal_date,
+                        gross=gross,
+                        spy=spy_r,
+                        cost=c,
+                        traded=traded,
+                        n_holdings=len(ab_new_h[name]),
+                        invested=sum(ab_new_h[name].values()),
+                        cash=ab_new_cash[name],
+                    )
+                )
+                ab_holdings[name] = ab_new_h[name]
         prev_exec = exec_date
 
     n_trials = len(STRATEGIES)
@@ -407,6 +482,20 @@ def run_backtest(
             ]
 
     es = run_event_study(trades, store, skill_path, last_signal)
+    ablations: dict = {}
+    if run_ablations:
+        for name in ABLATION_NAMES:
+            res, _ = _finish_strategy(
+                "conviction",
+                ab_periods[name],
+                ab_entry_cost[name],
+                ab_entry_traded[name],
+                ab_last_port[name],
+                last_book,
+                n_trials,
+            )
+            ablations[name] = ablation_public(name, res)
+
     return BacktestResult(
         strategies=strategies,
         spy=spy_pts,
@@ -427,6 +516,7 @@ def run_backtest(
             f"lag={execution_lag}"
         ),
         leakage=leakage_audit(trades, last_signal),
+        ablations=ablations,
     )
 
 
