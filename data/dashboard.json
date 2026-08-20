@@ -1,23 +1,24 @@
 {
+  "mode": "synthetic",
   "as_of": "2026-06-24",
   "score": 81,
   "label": "BULLISH",
   "top_signals": [
     {
-      "ticker": "JPM",
-      "name": "JPMorgan",
-      "sector": "Financials",
-      "signal": 0.953,
-      "score": 72,
+      "ticker": "LMT",
+      "name": "Lockheed Martin",
+      "sector": "Defense",
+      "signal": 1.145,
+      "score": 76,
       "n_politicians": 3,
       "n_predictive": 3
     },
     {
-      "ticker": "LMT",
-      "name": "Lockheed Martin",
-      "sector": "Defense",
-      "signal": 0.783,
-      "score": 69,
+      "ticker": "JPM",
+      "name": "JPMorgan",
+      "sector": "Financials",
+      "signal": 1.076,
+      "score": 75,
       "n_politicians": 3,
       "n_predictive": 3
     },
@@ -25,7 +26,7 @@
       "ticker": "NVDA",
       "name": "NVIDIA",
       "sector": "Technology",
-      "signal": 0.522,
+      "signal": 0.531,
       "score": 63,
       "n_politicians": 3,
       "n_predictive": 3
@@ -34,8 +35,8 @@
       "ticker": "RTX",
       "name": "RTX",
       "sector": "Defense",
-      "signal": 0.424,
-      "score": 60,
+      "signal": 0.432,
+      "score": 61,
       "n_politicians": 3,
       "n_predictive": 3
     }
@@ -114,93 +115,13 @@
     ]
   },
   "explanations": {
-    "JPM": {
-      "ticker": "JPM",
-      "name": "JPMorgan",
-      "sector": "Financials",
-      "strategy": "momentum",
-      "signal": 0.9533,
-      "score": 72,
-      "n_politicians": 3,
-      "n_predictive": 3,
-      "n_relevant_committee": 1,
-      "avg_lag_days": 11.8,
-      "positives": [
-        "3 historically predictive politicians on this name",
-        "1 filer sits on a financials-relevant committee",
-        "unusually strong congressional accumulation",
-        "average disclosure lag only 12 days",
-        "politician\u2013financials historical post-disclosure alpha: +5.9%"
-      ],
-      "negatives": [
-        "stock already +21.1% since earliest contributing trade date"
-      ],
-      "people": [
-        {
-          "name": "Avery Hale",
-          "politician_id": "hale",
-          "side": "BUY",
-          "lag_days": 8,
-          "disclosure_date": "2026-06-11",
-          "trade_date": "2026-06-03",
-          "weight": 0.674,
-          "contribution": 0.485,
-          "committee": false,
-          "amount_min": 500001.0,
-          "amount_max": 1000000.0
-        },
-        {
-          "name": "Quinn Ellis",
-          "politician_id": "ellis",
-          "side": "BUY",
-          "lag_days": 9,
-          "disclosure_date": "2026-06-12",
-          "trade_date": "2026-06-03",
-          "weight": 0.596,
-          "contribution": 0.429,
-          "committee": false,
-          "amount_min": 500001.0,
-          "amount_max": 1000000.0
-        },
-        {
-          "name": "Morgan Quinn",
-          "politician_id": "quinn",
-          "side": "BUY",
-          "lag_days": 16,
-          "disclosure_date": "2026-04-22",
-          "trade_date": "2026-04-06",
-          "weight": 0.454,
-          "contribution": 0.039,
-          "committee": true,
-          "amount_min": 50001.0,
-          "amount_max": 100000.0
-        },
-        {
-          "name": "Morgan Quinn",
-          "politician_id": "quinn",
-          "side": "BUY",
-          "lag_days": 14,
-          "disclosure_date": "2026-06-17",
-          "trade_date": "2026-06-03",
-          "weight": 0.454,
-          "contribution": 0.0,
-          "committee": true,
-          "amount_min": 100001.0,
-          "amount_max": 250000.0
-        }
-      ],
-      "pre_move": 0.2111,
-      "sector_alpha": 0.0592,
-      "decayed_frac": 0.33,
-      "blurb": "CongressModel currently flags JPM because 3 independently predictive congressional traders recently accumulated it, 1 sit on a relevant committee."
-    },
     "LMT": {
       "ticker": "LMT",
       "name": "Lockheed Martin",
       "sector": "Defense",
       "strategy": "momentum",
-      "signal": 0.7835,
-      "score": 69,
+      "signal": 1.145,
+      "score": 76,
       "n_politicians": 3,
       "n_predictive": 3,
       "n_relevant_committee": 3,
@@ -210,22 +131,35 @@
         "3 filers sit on a defense-relevant committee",
         "unusually strong congressional accumulation",
         "average disclosure lag only 13 days",
-        "politician\u2013defense historical post-disclosure alpha: +10.9%"
+        "politician\u2013defense historical post-disclosure alpha: +9.3%"
       ],
       "negatives": [
-        "stock already +101.1% since earliest contributing trade date",
-        "about 77% of estimated signal has already decayed"
+        "stock already +73.9% since earliest contributing trade date",
+        "about 68% of estimated signal has already decayed"
       ],
       "people": [
         {
+          "name": "Avery Hale",
+          "politician_id": "hale",
+          "side": "BUY",
+          "lag_days": 14,
+          "disclosure_date": "2026-06-16",
+          "trade_date": "2026-06-02",
+          "weight": 0.783,
+          "contribution": 0.341,
+          "committee": true,
+          "amount_min": 500001.0,
+          "amount_max": 1000000.0
+        },
+        {
           "name": "Rowan Blake",
           "politician_id": "blake",
           "side": "BUY",
           "lag_days": 14,
           "disclosure_date": "2026-06-16",
           "trade_date": "2026-06-02",
-          "weight": 0.717,
-          "contribution": 0.252,
+          "weight": 0.697,
+          "contribution": 0.297,
           "committee": true,
           "amount_min": 250001.0,
           "amount_max": 500000.0
@@ -234,24 +168,11 @@
           "name": "Avery Hale",
           "politician_id": "hale",
           "side": "BUY",
-          "lag_days": 14,
-          "disclosure_date": "2026-06-16",
-          "trade_date": "2026-06-02",
-          "weight": 0.798,
-          "contribution": 0.25,
-          "committee": true,
-          "amount_min": 500001.0,
-          "amount_max": 1000000.0
-        },
-        {
-          "name": "Avery Hale",
-          "politician_id": "hale",
-          "side": "BUY",
           "lag_days": 10,
           "disclosure_date": "2026-04-24",
           "trade_date": "2026-04-14",
-          "weight": 0.798,
-          "contribution": 0.184,
+          "weight": 0.783,
+          "contribution": 0.209,
           "committee": true,
           "amount_min": 250001.0,
           "amount_max": 500000.0
@@ -263,47 +184,8 @@
           "lag_days": 10,
           "disclosure_date": "2026-04-24",
           "trade_date": "2026-04-14",
-          "weight": 0.726,
-          "contribution": 0.124,
-          "committee": true,
-          "amount_min": 100001.0,
-          "amount_max": 250000.0
-        },
-        {
-          "name": "Quinn Ellis",
-          "politician_id": "ellis",
-          "side": "SELL",
-          "lag_days": 17,
-          "disclosure_date": "2026-04-24",
-          "trade_date": "2026-04-07",
-          "weight": 0.726,
-          "contribution": -0.064,
-          "committee": true,
-          "amount_min": 100001.0,
-          "amount_max": 250000.0
-        },
-        {
-          "name": "Rowan Blake",
-          "politician_id": "blake",
-          "side": "BUY",
-          "lag_days": 17,
-          "disclosure_date": "2026-05-01",
-          "trade_date": "2026-04-14",
-          "weight": 0.717,
-          "contribution": 0.037,
-          "committee": true,
-          "amount_min": 500001.0,
-          "amount_max": 1000000.0
-        },
-        {
-          "name": "Quinn Ellis",
-          "politician_id": "ellis",
-          "side": "BUY",
-          "lag_days": 15,
-          "disclosure_date": "2026-06-17",
-          "trade_date": "2026-06-02",
-          "weight": 0.726,
-          "contribution": 0.0,
+          "weight": 0.694,
+          "contribution": 0.148,
           "committee": true,
           "amount_min": 100001.0,
           "amount_max": 250000.0
@@ -315,24 +197,143 @@
           "lag_days": 8,
           "disclosure_date": "2026-06-17",
           "trade_date": "2026-06-09",
-          "weight": 0.798,
+          "weight": 0.783,
+          "contribution": 0.14,
+          "committee": true,
+          "amount_min": 100001.0,
+          "amount_max": 250000.0
+        },
+        {
+          "name": "Rowan Blake",
+          "politician_id": "blake",
+          "side": "BUY",
+          "lag_days": 17,
+          "disclosure_date": "2026-05-01",
+          "trade_date": "2026-04-14",
+          "weight": 0.697,
+          "contribution": 0.066,
+          "committee": true,
+          "amount_min": 500001.0,
+          "amount_max": 1000000.0
+        },
+        {
+          "name": "Quinn Ellis",
+          "politician_id": "ellis",
+          "side": "SELL",
+          "lag_days": 17,
+          "disclosure_date": "2026-04-24",
+          "trade_date": "2026-04-07",
+          "weight": 0.694,
+          "contribution": -0.054,
+          "committee": true,
+          "amount_min": 100001.0,
+          "amount_max": 250000.0
+        },
+        {
+          "name": "Quinn Ellis",
+          "politician_id": "ellis",
+          "side": "BUY",
+          "lag_days": 15,
+          "disclosure_date": "2026-06-17",
+          "trade_date": "2026-06-02",
+          "weight": 0.694,
           "contribution": 0.0,
           "committee": true,
           "amount_min": 100001.0,
           "amount_max": 250000.0
         }
       ],
-      "pre_move": 1.0112,
-      "sector_alpha": 0.1091,
-      "decayed_frac": 0.773,
+      "pre_move": 0.739,
+      "sector_alpha": 0.0931,
+      "decayed_frac": 0.677,
       "blurb": "CongressModel currently flags LMT because 3 independently predictive congressional traders recently accumulated it, 3 sit on a relevant committee."
+    },
+    "JPM": {
+      "ticker": "JPM",
+      "name": "JPMorgan",
+      "sector": "Financials",
+      "strategy": "momentum",
+      "signal": 1.0757,
+      "score": 75,
+      "n_politicians": 3,
+      "n_predictive": 3,
+      "n_relevant_committee": 1,
+      "avg_lag_days": 11.8,
+      "positives": [
+        "3 historically predictive politicians on this name",
+        "1 filer sits on a financials-relevant committee",
+        "unusually strong congressional accumulation",
+        "average disclosure lag only 12 days",
+        "politician\u2013financials historical post-disclosure alpha: +5.1%"
+      ],
+      "negatives": [
+        "stock already +25.7% since earliest contributing trade date"
+      ],
+      "people": [
+        {
+          "name": "Avery Hale",
+          "politician_id": "hale",
+          "side": "BUY",
+          "lag_days": 8,
+          "disclosure_date": "2026-06-11",
+          "trade_date": "2026-06-03",
+          "weight": 0.656,
+          "contribution": 0.472,
+          "committee": false,
+          "amount_min": 500001.0,
+          "amount_max": 1000000.0
+        },
+        {
+          "name": "Quinn Ellis",
+          "politician_id": "ellis",
+          "side": "BUY",
+          "lag_days": 9,
+          "disclosure_date": "2026-06-12",
+          "trade_date": "2026-06-03",
+          "weight": 0.558,
+          "contribution": 0.401,
+          "committee": false,
+          "amount_min": 500001.0,
+          "amount_max": 1000000.0
+        },
+        {
+          "name": "Morgan Quinn",
+          "politician_id": "quinn",
+          "side": "BUY",
+          "lag_days": 14,
+          "disclosure_date": "2026-06-17",
+          "trade_date": "2026-06-03",
+          "weight": 0.416,
+          "contribution": 0.172,
+          "committee": true,
+          "amount_min": 100001.0,
+          "amount_max": 250000.0
+        },
+        {
+          "name": "Morgan Quinn",
+          "politician_id": "quinn",
+          "side": "BUY",
+          "lag_days": 16,
+          "disclosure_date": "2026-04-22",
+          "trade_date": "2026-04-06",
+          "weight": 0.416,
+          "contribution": 0.031,
+          "committee": true,
+          "amount_min": 50001.0,
+          "amount_max": 100000.0
+        }
+      ],
+      "pre_move": 0.2572,
+      "sector_alpha": 0.0514,
+      "decayed_frac": 0.108,
+      "blurb": "CongressModel currently flags JPM because 3 independently predictive congressional traders recently accumulated it, 1 sit on a relevant committee."
     },
     "NVDA": {
       "ticker": "NVDA",
       "name": "NVIDIA",
       "sector": "Technology",
       "strategy": "momentum",
-      "signal": 0.5217,
+      "signal": 0.5308,
       "score": 63,
       "n_politicians": 3,
       "n_predictive": 3,
@@ -342,10 +343,10 @@
         "3 historically predictive politicians on this name",
         "3 filers sit on a technology-relevant committee",
         "unusually strong congressional accumulation",
-        "politician\u2013technology historical post-disclosure alpha: +4.2%"
+        "politician\u2013technology historical post-disclosure alpha: +4.6%"
       ],
       "negatives": [
-        "stock already +11.9% since earliest contributing trade date"
+        "stock already +15.0% since earliest contributing trade date"
       ],
       "people": [
         {
@@ -355,8 +356,8 @@
           "lag_days": 13,
           "disclosure_date": "2026-06-01",
           "trade_date": "2026-05-19",
-          "weight": 0.619,
-          "contribution": 0.398,
+          "weight": 0.594,
+          "contribution": 0.358,
           "committee": true,
           "amount_min": 500001.0,
           "amount_max": 1000000.0
@@ -368,8 +369,8 @@
           "lag_days": 10,
           "disclosure_date": "2026-05-29",
           "trade_date": "2026-05-19",
-          "weight": 0.252,
-          "contribution": 0.096,
+          "weight": 0.338,
+          "contribution": 0.141,
           "committee": true,
           "amount_min": 100001.0,
           "amount_max": 250000.0
@@ -381,16 +382,16 @@
           "lag_days": 31,
           "disclosure_date": "2026-06-19",
           "trade_date": "2026-05-19",
-          "weight": 0.411,
-          "contribution": 0.028,
+          "weight": 0.514,
+          "contribution": 0.032,
           "committee": true,
           "amount_min": 100001.0,
           "amount_max": 250000.0
         }
       ],
-      "pre_move": 0.1185,
-      "sector_alpha": 0.0424,
-      "decayed_frac": 0.297,
+      "pre_move": 0.1501,
+      "sector_alpha": 0.0459,
+      "decayed_frac": 0.298,
       "blurb": "CongressModel currently flags NVDA because 3 independently predictive congressional traders recently accumulated it, 3 sit on a relevant committee."
     },
     "RTX": {
@@ -398,8 +399,8 @@
       "name": "RTX",
       "sector": "Defense",
       "strategy": "momentum",
-      "signal": 0.4235,
-      "score": 60,
+      "signal": 0.4323,
+      "score": 61,
       "n_politicians": 3,
       "n_predictive": 3,
       "n_relevant_committee": 3,
@@ -409,11 +410,11 @@
         "3 filers sit on a defense-relevant committee",
         "unusually strong congressional accumulation",
         "average disclosure lag only 11 days",
-        "politician\u2013defense historical post-disclosure alpha: +11.1%"
+        "politician\u2013defense historical post-disclosure alpha: +9.5%"
       ],
       "negatives": [
-        "stock already +41.1% since earliest contributing trade date",
-        "about 65% of estimated signal has already decayed"
+        "stock already +33.3% since earliest contributing trade date",
+        "about 64% of estimated signal has already decayed"
       ],
       "people": [
         {
@@ -423,8 +424,8 @@
           "lag_days": 10,
           "disclosure_date": "2026-05-22",
           "trade_date": "2026-05-12",
-          "weight": 0.798,
-          "contribution": 0.212,
+          "weight": 0.783,
+          "contribution": 0.238,
           "committee": true,
           "amount_min": 250001.0,
           "amount_max": 500000.0
@@ -436,8 +437,8 @@
           "lag_days": 9,
           "disclosure_date": "2026-05-21",
           "trade_date": "2026-05-12",
-          "weight": 0.726,
-          "contribution": 0.156,
+          "weight": 0.694,
+          "contribution": 0.163,
           "committee": true,
           "amount_min": 250001.0,
           "amount_max": 500000.0
@@ -449,16 +450,16 @@
           "lag_days": 15,
           "disclosure_date": "2026-05-27",
           "trade_date": "2026-05-12",
-          "weight": 0.717,
-          "contribution": 0.055,
+          "weight": 0.697,
+          "contribution": 0.032,
           "committee": true,
           "amount_min": 100001.0,
           "amount_max": 250000.0
         }
       ],
-      "pre_move": 0.4109,
-      "sector_alpha": 0.1112,
-      "decayed_frac": 0.65,
+      "pre_move": 0.3329,
+      "sector_alpha": 0.095,
+      "decayed_frac": 0.638,
       "blurb": "CongressModel currently flags RTX because 3 independently predictive congressional traders recently accumulated it, 3 sit on a relevant committee."
     }
   },
@@ -466,101 +467,101 @@
     {
       "id": "hale",
       "name": "Avery Hale",
-      "overall": 0.741,
-      "defense": 0.817,
-      "tech": 0.184,
-      "healthcare": 0.173,
+      "overall": 0.722,
+      "defense": 0.803,
+      "tech": 0.173,
+      "healthcare": 0.168,
       "n": 29.9,
-      "alpha20": 0.0975,
-      "hit_rate": 0.894
+      "alpha20": 0.086,
+      "hit_rate": 0.927
     },
     {
       "id": "ellis",
       "name": "Quinn Ellis",
-      "overall": 0.654,
-      "defense": 0.752,
-      "tech": 0.2,
-      "healthcare": 0.244,
+      "overall": 0.614,
+      "defense": 0.724,
+      "tech": 0.161,
+      "healthcare": 0.2,
       "n": 26.1,
-      "alpha20": 0.0631,
-      "hit_rate": 0.754
+      "alpha20": 0.0512,
+      "hit_rate": 0.693
     },
     {
       "id": "blake",
       "name": "Rowan Blake",
-      "overall": 0.63,
-      "defense": 0.757,
-      "tech": 0.024,
+      "overall": 0.605,
+      "defense": 0.739,
+      "tech": 0.021,
       "healthcare": null,
       "n": 18.5,
-      "alpha20": 0.0766,
-      "hit_rate": 0.978
-    },
-    {
-      "id": "quinn",
-      "name": "Morgan Quinn",
-      "overall": 0.397,
-      "defense": null,
-      "tech": 0.007,
-      "healthcare": null,
-      "n": 19.4,
-      "alpha20": 0.0254,
-      "hit_rate": 0.7
+      "alpha20": 0.0643,
+      "hit_rate": 0.964
     },
     {
       "id": "vale",
       "name": "Casey Vale",
-      "overall": 0.31,
-      "defense": 0.092,
-      "tech": 0.478,
+      "overall": 0.43,
+      "defense": 0.109,
+      "tech": 0.57,
       "healthcare": null,
       "n": 14.8,
-      "alpha20": 0.0238,
-      "hit_rate": 0.834
+      "alpha20": 0.0326,
+      "hit_rate": 0.794
+    },
+    {
+      "id": "quinn",
+      "name": "Morgan Quinn",
+      "overall": 0.361,
+      "defense": null,
+      "tech": 0.021,
+      "healthcare": null,
+      "n": 19.4,
+      "alpha20": 0.0245,
+      "hit_rate": 0.57
     },
     {
       "id": "ames",
       "name": "Skyler Ames",
-      "overall": 0.202,
+      "overall": 0.27,
       "defense": null,
-      "tech": 0.284,
-      "healthcare": -0.004,
+      "tech": 0.38,
+      "healthcare": 0.025,
       "n": 15.7,
-      "alpha20": 0.0041,
-      "hit_rate": 0.535
-    },
-    {
-      "id": "cole",
-      "name": "Harper Cole",
-      "overall": 0.183,
-      "defense": 0.092,
-      "tech": null,
-      "healthcare": 0.214,
-      "n": 7.9,
-      "alpha20": 0.0129,
-      "hit_rate": 0.596
+      "alpha20": 0.0127,
+      "hit_rate": 0.788
     },
     {
       "id": "brooks",
       "name": "Riley Brooks",
-      "overall": 0.153,
-      "defense": 0.092,
-      "tech": 0.01,
+      "overall": 0.179,
+      "defense": 0.067,
+      "tech": 0.016,
       "healthcare": null,
       "n": 13.0,
-      "alpha20": 0.0108,
-      "hit_rate": 0.681
+      "alpha20": 0.0088,
+      "hit_rate": 0.665
+    },
+    {
+      "id": "cole",
+      "name": "Harper Cole",
+      "overall": 0.144,
+      "defense": 0.077,
+      "tech": null,
+      "healthcare": 0.132,
+      "n": 7.9,
+      "alpha20": 0.0083,
+      "hit_rate": 0.596
     },
     {
       "id": "patel",
       "name": "Drew Patel",
-      "overall": -0.056,
-      "defense": 0.192,
-      "tech": -0.097,
-      "healthcare": -0.127,
+      "overall": -0.063,
+      "defense": 0.159,
+      "tech": -0.041,
+      "healthcare": -0.111,
       "n": 13.6,
-      "alpha20": -0.0046,
-      "hit_rate": 0.428
+      "alpha20": 0.0006,
+      "hit_rate": 0.509
     },
     {
       "id": "nash",
@@ -577,9 +578,9 @@
   "delay_decay": {
     "0-7": 1.0,
     "8-14": 1.25,
-    "15-30": 0.471,
-    "31-45": 0.249,
-    "45+": 0.118
+    "15-30": 0.419,
+    "31-45": 0.343,
+    "45+": 0.126
   },
   "nav": {
     "momentum": [
@@ -693,723 +694,723 @@
       },
       {
         "date": "2023-01-19",
-        "nav": 1.0043
+        "nav": 1.0024
       },
       {
         "date": "2023-01-26",
-        "nav": 0.9998
+        "nav": 0.9961
       },
       {
         "date": "2023-02-02",
-        "nav": 0.9994
+        "nav": 0.9984
       },
       {
         "date": "2023-02-09",
-        "nav": 1.0028
+        "nav": 1.0002
       },
       {
         "date": "2023-02-16",
-        "nav": 1.0028
+        "nav": 0.9988
       },
       {
         "date": "2023-02-23",
-        "nav": 1.0028
+        "nav": 0.9981
       },
       {
         "date": "2023-03-02",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-03-09",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-03-16",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-03-23",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-03-30",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-04-06",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-04-13",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-04-20",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-04-27",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-05-04",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-05-11",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-05-18",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-05-25",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-06-01",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-06-08",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-06-15",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-06-22",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-06-29",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-07-06",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-07-13",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-07-20",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-07-27",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-08-03",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-08-10",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-08-17",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-08-24",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-08-31",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-09-07",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-09-14",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-09-21",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-09-28",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-10-05",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-10-12",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-10-19",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-10-26",
-        "nav": 1.0028
+        "nav": 1.003
       },
       {
         "date": "2023-11-02",
-        "nav": 1.0044
+        "nav": 1.003
       },
       {
         "date": "2023-11-09",
-        "nav": 1.0044
+        "nav": 1.003
       },
       {
         "date": "2023-11-16",
-        "nav": 1.0044
+        "nav": 1.003
       },
       {
         "date": "2023-11-23",
-        "nav": 1.0044
+        "nav": 1.003
       },
       {
         "date": "2023-11-30",
-        "nav": 1.0044
+        "nav": 1.003
       },
       {
         "date": "2023-12-07",
-        "nav": 1.0044
+        "nav": 1.003
       },
       {
         "date": "2023-12-14",
-        "nav": 1.0044
+        "nav": 1.003
       },
       {
         "date": "2023-12-21",
-        "nav": 1.006
+        "nav": 1.0056
       },
       {
         "date": "2023-12-28",
-        "nav": 1.0092
+        "nav": 1.0063
       },
       {
         "date": "2024-01-04",
-        "nav": 1.0137
+        "nav": 1.0063
       },
       {
         "date": "2024-01-11",
-        "nav": 1.0094
+        "nav": 1.0011
       },
       {
         "date": "2024-01-18",
-        "nav": 1.0092
+        "nav": 1.0043
       },
       {
         "date": "2024-01-25",
-        "nav": 1.0072
+        "nav": 1.006
       },
       {
         "date": "2024-02-01",
-        "nav": 1.0106
+        "nav": 1.0093
       },
       {
         "date": "2024-02-08",
-        "nav": 1.0169
+        "nav": 1.0122
       },
       {
         "date": "2024-02-15",
-        "nav": 1.0167
+        "nav": 1.006
       },
       {
         "date": "2024-02-22",
-        "nav": 1.0255
+        "nav": 1.0039
       },
       {
         "date": "2024-02-29",
-        "nav": 1.0274
+        "nav": 1.0043
       },
       {
         "date": "2024-03-07",
-        "nav": 1.0419
+        "nav": 1.0147
       },
       {
         "date": "2024-03-14",
-        "nav": 1.0389
+        "nav": 1.0162
       },
       {
         "date": "2024-03-21",
-        "nav": 1.0372
+        "nav": 1.0157
       },
       {
         "date": "2024-03-28",
-        "nav": 1.036
+        "nav": 1.0146
       },
       {
         "date": "2024-04-04",
-        "nav": 1.04
+        "nav": 1.0184
       },
       {
         "date": "2024-04-11",
-        "nav": 1.0403
+        "nav": 1.0225
       },
       {
         "date": "2024-04-18",
-        "nav": 1.05
+        "nav": 1.0311
       },
       {
         "date": "2024-04-25",
-        "nav": 1.0555
+        "nav": 1.036
       },
       {
         "date": "2024-05-02",
-        "nav": 1.0503
+        "nav": 1.0332
       },
       {
         "date": "2024-05-09",
-        "nav": 1.0586
+        "nav": 1.0385
       },
       {
         "date": "2024-05-16",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-05-23",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-05-30",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-06-06",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-06-13",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-06-20",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-06-27",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-07-04",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-07-11",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-07-18",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-07-25",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-08-01",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-08-08",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-08-15",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-08-22",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-08-29",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-09-05",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-09-12",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-09-19",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-09-26",
-        "nav": 1.0592
+        "nav": 1.0394
       },
       {
         "date": "2024-10-03",
-        "nav": 1.0602
+        "nav": 1.0417
       },
       {
         "date": "2024-10-10",
-        "nav": 1.0657
+        "nav": 1.0448
       },
       {
         "date": "2024-10-17",
-        "nav": 1.0729
+        "nav": 1.044
       },
       {
         "date": "2024-10-24",
-        "nav": 1.0778
+        "nav": 1.0513
       },
       {
         "date": "2024-10-31",
-        "nav": 1.0793
+        "nav": 1.0548
       },
       {
         "date": "2024-11-07",
-        "nav": 1.0849
+        "nav": 1.0593
       },
       {
         "date": "2024-11-14",
-        "nav": 1.093
+        "nav": 1.0694
       },
       {
         "date": "2024-11-21",
-        "nav": 1.1008
+        "nav": 1.0787
       },
       {
         "date": "2024-11-28",
-        "nav": 1.0992
+        "nav": 1.0771
       },
       {
         "date": "2024-12-05",
-        "nav": 1.0981
+        "nav": 1.0771
       },
       {
         "date": "2024-12-12",
-        "nav": 1.0978
+        "nav": 1.0769
       },
       {
         "date": "2024-12-19",
-        "nav": 1.0937
+        "nav": 1.0742
       },
       {
         "date": "2024-12-26",
-        "nav": 1.0984
+        "nav": 1.0742
       },
       {
         "date": "2025-01-02",
-        "nav": 1.0984
+        "nav": 1.0742
       },
       {
         "date": "2025-01-09",
-        "nav": 1.0984
+        "nav": 1.0742
       },
       {
         "date": "2025-01-16",
-        "nav": 1.0984
+        "nav": 1.0742
       },
       {
         "date": "2025-01-23",
-        "nav": 1.0984
+        "nav": 1.0742
       },
       {
         "date": "2025-01-30",
-        "nav": 1.0984
+        "nav": 1.0742
       },
       {
         "date": "2025-02-06",
-        "nav": 1.0984
+        "nav": 1.0742
       },
       {
         "date": "2025-02-13",
-        "nav": 1.0984
+        "nav": 1.0742
       },
       {
         "date": "2025-02-20",
-        "nav": 1.0984
+        "nav": 1.0742
       },
       {
         "date": "2025-02-27",
-        "nav": 1.0964
+        "nav": 1.0705
       },
       {
         "date": "2025-03-06",
-        "nav": 1.0941
+        "nav": 1.0693
       },
       {
         "date": "2025-03-13",
-        "nav": 1.0979
+        "nav": 1.0708
       },
       {
         "date": "2025-03-20",
-        "nav": 1.1043
+        "nav": 1.0816
       },
       {
         "date": "2025-03-27",
-        "nav": 1.1139
+        "nav": 1.092
       },
       {
         "date": "2025-04-03",
-        "nav": 1.1144
+        "nav": 1.0924
       },
       {
         "date": "2025-04-10",
-        "nav": 1.1218
+        "nav": 1.0965
       },
       {
         "date": "2025-04-17",
-        "nav": 1.1355
+        "nav": 1.1091
       },
       {
         "date": "2025-04-24",
-        "nav": 1.1383
+        "nav": 1.1122
       },
       {
         "date": "2025-05-01",
-        "nav": 1.1439
+        "nav": 1.1167
       },
       {
         "date": "2025-05-08",
-        "nav": 1.1439
+        "nav": 1.1184
       },
       {
         "date": "2025-05-15",
-        "nav": 1.1488
+        "nav": 1.126
       },
       {
         "date": "2025-05-22",
-        "nav": 1.1488
+        "nav": 1.1295
       },
       {
         "date": "2025-05-29",
-        "nav": 1.1488
+        "nav": 1.1295
       },
       {
         "date": "2025-06-05",
-        "nav": 1.1488
+        "nav": 1.1295
       },
       {
         "date": "2025-06-12",
-        "nav": 1.1488
+        "nav": 1.1299
       },
       {
         "date": "2025-06-19",
-        "nav": 1.1488
+        "nav": 1.1306
       },
       {
         "date": "2025-06-26",
-        "nav": 1.1488
+        "nav": 1.1306
       },
       {
         "date": "2025-07-03",
-        "nav": 1.1488
+        "nav": 1.1306
       },
       {
         "date": "2025-07-10",
-        "nav": 1.1488
+        "nav": 1.1306
       },
       {
         "date": "2025-07-17",
-        "nav": 1.1517
+        "nav": 1.1335
       },
       {
         "date": "2025-07-24",
-        "nav": 1.1497
+        "nav": 1.1308
       },
       {
         "date": "2025-07-31",
-        "nav": 1.1596
+        "nav": 1.1395
       },
       {
         "date": "2025-08-07",
-        "nav": 1.1687
+        "nav": 1.1482
       },
       {
         "date": "2025-08-14",
-        "nav": 1.173
+        "nav": 1.1532
       },
       {
         "date": "2025-08-21",
-        "nav": 1.1671
+        "nav": 1.1471
       },
       {
         "date": "2025-08-28",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-09-04",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-09-11",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-09-18",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-09-25",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-10-02",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-10-09",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-10-16",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-10-23",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-10-30",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-11-06",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-11-13",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-11-20",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-11-27",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-12-04",
-        "nav": 1.1631
+        "nav": 1.1394
       },
       {
         "date": "2025-12-11",
-        "nav": 1.175
+        "nav": 1.1508
       },
       {
         "date": "2025-12-18",
-        "nav": 1.1826
+        "nav": 1.1536
       },
       {
         "date": "2025-12-25",
-        "nav": 1.1938
+        "nav": 1.1625
       },
       {
         "date": "2026-01-01",
-        "nav": 1.2038
+        "nav": 1.1722
       },
       {
         "date": "2026-01-08",
-        "nav": 1.2034
+        "nav": 1.1706
       },
       {
         "date": "2026-01-15",
-        "nav": 1.2103
+        "nav": 1.1766
       },
       {
         "date": "2026-01-22",
-        "nav": 1.2158
+        "nav": 1.178
       },
       {
         "date": "2026-01-29",
-        "nav": 1.2149
+        "nav": 1.1808
       },
       {
         "date": "2026-02-05",
-        "nav": 1.218
+        "nav": 1.1839
       },
       {
         "date": "2026-02-12",
-        "nav": 1.2255
+        "nav": 1.189
       },
       {
         "date": "2026-02-19",
-        "nav": 1.2329
+        "nav": 1.193
       },
       {
         "date": "2026-02-26",
-        "nav": 1.2426
+        "nav": 1.1974
       },
       {
         "date": "2026-03-05",
-        "nav": 1.2397
+        "nav": 1.1951
       },
       {
         "date": "2026-03-12",
-        "nav": 1.2397
+        "nav": 1.1939
       },
       {
         "date": "2026-03-19",
-        "nav": 1.2397
+        "nav": 1.202
       },
       {
         "date": "2026-03-26",
-        "nav": 1.2397
+        "nav": 1.2027
       },
       {
         "date": "2026-04-02",
-        "nav": 1.2397
+        "nav": 1.2045
       },
       {
         "date": "2026-04-09",
-        "nav": 1.2397
+        "nav": 1.1983
       },
       {
         "date": "2026-04-16",
-        "nav": 1.2397
+        "nav": 1.1977
       },
       {
         "date": "2026-04-23",
-        "nav": 1.2397
+        "nav": 1.1985
       },
       {
         "date": "2026-04-30",
-        "nav": 1.2493
+        "nav": 1.2074
       },
       {
         "date": "2026-05-07",
-        "nav": 1.2531
+        "nav": 1.2103
       },
       {
         "date": "2026-05-14",
-        "nav": 1.2716
+        "nav": 1.2289
       },
       {
         "date": "2026-05-21",
-        "nav": 1.2627
+        "nav": 1.2214
       },
       {
         "date": "2026-05-28",
-        "nav": 1.2643
+        "nav": 1.2271
       },
       {
         "date": "2026-06-04",
-        "nav": 1.2816
+        "nav": 1.2432
       },
       {
         "date": "2026-06-11",
-        "nav": 1.2755
+        "nav": 1.2325
       },
       {
         "date": "2026-06-18",
-        "nav": 1.3076
+        "nav": 1.2575
       },
       {
         "date": "2026-06-25",
-        "nav": 1.3862
+        "nav": 1.3322
       }
     ],
     "conviction": [
@@ -1727,519 +1728,519 @@
       },
       {
         "date": "2024-01-11",
-        "nav": 0.9957
+        "nav": 0.9949
       },
       {
         "date": "2024-01-18",
-        "nav": 0.9956
+        "nav": 0.9981
       },
       {
         "date": "2024-01-25",
-        "nav": 0.9936
+        "nav": 0.9997
       },
       {
         "date": "2024-02-01",
-        "nav": 0.997
-      },
-      {
-        "date": "2024-02-08",
-        "nav": 1.0032
-      },
-      {
-        "date": "2024-02-15",
         "nav": 1.003
       },
       {
+        "date": "2024-02-08",
+        "nav": 1.0059
+      },
+      {
+        "date": "2024-02-15",
+        "nav": 0.9997
+      },
+      {
         "date": "2024-02-22",
-        "nav": 1.0116
+        "nav": 0.9977
       },
       {
         "date": "2024-02-29",
-        "nav": 1.0135
+        "nav": 0.9981
       },
       {
         "date": "2024-03-07",
-        "nav": 1.0278
+        "nav": 1.0084
       },
       {
         "date": "2024-03-14",
-        "nav": 1.0249
+        "nav": 1.0099
       },
       {
         "date": "2024-03-21",
-        "nav": 1.0232
+        "nav": 1.0094
       },
       {
         "date": "2024-03-28",
-        "nav": 1.022
+        "nav": 1.0083
       },
       {
         "date": "2024-04-04",
-        "nav": 1.0259
+        "nav": 1.012
       },
       {
         "date": "2024-04-11",
-        "nav": 1.0262
+        "nav": 1.0162
       },
       {
         "date": "2024-04-18",
-        "nav": 1.0358
+        "nav": 1.0247
       },
       {
         "date": "2024-04-25",
-        "nav": 1.0413
+        "nav": 1.0295
       },
       {
         "date": "2024-05-02",
-        "nav": 1.0361
+        "nav": 1.0268
       },
       {
         "date": "2024-05-09",
-        "nav": 1.0443
+        "nav": 1.0321
       },
       {
         "date": "2024-05-16",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-05-23",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-05-30",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-06-06",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-06-13",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-06-20",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-06-27",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-07-04",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-07-11",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-07-18",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-07-25",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-08-01",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-08-08",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-08-15",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-08-22",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-08-29",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-09-05",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-09-12",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-09-19",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-09-26",
-        "nav": 1.0449
+        "nav": 1.0329
       },
       {
         "date": "2024-10-03",
-        "nav": 1.0459
+        "nav": 1.0352
       },
       {
         "date": "2024-10-10",
-        "nav": 1.0493
+        "nav": 1.0382
       },
       {
         "date": "2024-10-17",
-        "nav": 1.0504
+        "nav": 1.0375
       },
       {
         "date": "2024-10-24",
-        "nav": 1.0575
+        "nav": 1.0448
       },
       {
         "date": "2024-10-31",
-        "nav": 1.0589
+        "nav": 1.0482
       },
       {
         "date": "2024-11-07",
-        "nav": 1.0645
+        "nav": 1.0527
       },
       {
         "date": "2024-11-14",
-        "nav": 1.0724
+        "nav": 1.0628
       },
       {
         "date": "2024-11-21",
-        "nav": 1.08
+        "nav": 1.072
       },
       {
         "date": "2024-11-28",
-        "nav": 1.0785
+        "nav": 1.0704
       },
       {
         "date": "2024-12-05",
-        "nav": 1.0774
+        "nav": 1.0704
       },
       {
         "date": "2024-12-12",
-        "nav": 1.0772
+        "nav": 1.0702
       },
       {
         "date": "2024-12-19",
-        "nav": 1.0731
+        "nav": 1.0675
       },
       {
         "date": "2024-12-26",
-        "nav": 1.0777
+        "nav": 1.0675
       },
       {
         "date": "2025-01-02",
-        "nav": 1.0777
+        "nav": 1.0675
       },
       {
         "date": "2025-01-09",
-        "nav": 1.0777
+        "nav": 1.0675
       },
       {
         "date": "2025-01-16",
-        "nav": 1.0777
+        "nav": 1.0675
       },
       {
         "date": "2025-01-23",
-        "nav": 1.0777
+        "nav": 1.0675
       },
       {
         "date": "2025-01-30",
-        "nav": 1.0777
+        "nav": 1.0675
       },
       {
         "date": "2025-02-06",
-        "nav": 1.0777
+        "nav": 1.0675
       },
       {
         "date": "2025-02-13",
-        "nav": 1.0777
+        "nav": 1.0675
       },
       {
         "date": "2025-02-20",
-        "nav": 1.0777
+        "nav": 1.0675
       },
       {
         "date": "2025-02-27",
-        "nav": 1.0757
+        "nav": 1.0638
       },
       {
         "date": "2025-03-06",
-        "nav": 1.0735
+        "nav": 1.0642
       },
       {
         "date": "2025-03-13",
-        "nav": 1.0772
+        "nav": 1.0687
       },
       {
         "date": "2025-03-20",
-        "nav": 1.0835
+        "nav": 1.0726
       },
       {
         "date": "2025-03-27",
-        "nav": 1.0929
+        "nav": 1.0796
       },
       {
         "date": "2025-04-03",
-        "nav": 1.0934
+        "nav": 1.0815
       },
       {
         "date": "2025-04-10",
-        "nav": 1.1006
+        "nav": 1.0856
       },
       {
         "date": "2025-04-17",
-        "nav": 1.1141
+        "nav": 1.0981
       },
       {
         "date": "2025-04-24",
-        "nav": 1.1168
+        "nav": 1.1012
       },
       {
         "date": "2025-05-01",
-        "nav": 1.1223
+        "nav": 1.1056
       },
       {
         "date": "2025-05-08",
-        "nav": 1.1224
+        "nav": 1.1073
       },
       {
         "date": "2025-05-15",
-        "nav": 1.1272
+        "nav": 1.1148
       },
       {
         "date": "2025-05-22",
-        "nav": 1.1272
+        "nav": 1.1183
       },
       {
         "date": "2025-05-29",
-        "nav": 1.1272
+        "nav": 1.1183
       },
       {
         "date": "2025-06-05",
-        "nav": 1.1272
+        "nav": 1.1183
       },
       {
         "date": "2025-06-12",
-        "nav": 1.1272
+        "nav": 1.1183
       },
       {
         "date": "2025-06-19",
-        "nav": 1.1272
+        "nav": 1.1183
       },
       {
         "date": "2025-06-26",
-        "nav": 1.1272
+        "nav": 1.1183
       },
       {
         "date": "2025-07-03",
-        "nav": 1.1272
+        "nav": 1.1183
       },
       {
         "date": "2025-07-10",
-        "nav": 1.1272
+        "nav": 1.1183
       },
       {
         "date": "2025-07-17",
-        "nav": 1.1272
+        "nav": 1.1183
       },
       {
         "date": "2025-07-24",
-        "nav": 1.1272
+        "nav": 1.1183
       },
       {
         "date": "2025-07-31",
-        "nav": 1.1368
+        "nav": 1.1183
       },
       {
         "date": "2025-08-07",
-        "nav": 1.1458
+        "nav": 1.1183
       },
       {
         "date": "2025-08-14",
-        "nav": 1.15
+        "nav": 1.1183
       },
       {
         "date": "2025-08-21",
-        "nav": 1.1442
+        "nav": 1.1183
       },
       {
         "date": "2025-08-28",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-09-04",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-09-11",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-09-18",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-09-25",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-10-02",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-10-09",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-10-16",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-10-23",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-10-30",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-11-06",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-11-13",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-11-20",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-11-27",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-12-04",
-        "nav": 1.1403
+        "nav": 1.1183
       },
       {
         "date": "2025-12-11",
-        "nav": 1.152
+        "nav": 1.1295
       },
       {
         "date": "2025-12-18",
-        "nav": 1.1594
+        "nav": 1.1323
       },
       {
         "date": "2025-12-25",
-        "nav": 1.1704
+        "nav": 1.141
       },
       {
         "date": "2026-01-01",
-        "nav": 1.1801
+        "nav": 1.1506
       },
       {
         "date": "2026-01-08",
-        "nav": 1.1798
+        "nav": 1.149
       },
       {
         "date": "2026-01-15",
-        "nav": 1.1865
+        "nav": 1.1548
       },
       {
         "date": "2026-01-22",
-        "nav": 1.1919
+        "nav": 1.1562
       },
       {
         "date": "2026-01-29",
-        "nav": 1.1911
+        "nav": 1.1589
       },
       {
         "date": "2026-02-05",
-        "nav": 1.1941
+        "nav": 1.162
       },
       {
         "date": "2026-02-12",
-        "nav": 1.2015
+        "nav": 1.1669
       },
       {
         "date": "2026-02-19",
-        "nav": 1.2087
+        "nav": 1.1709
       },
       {
         "date": "2026-02-26",
-        "nav": 1.2182
+        "nav": 1.1753
       },
       {
         "date": "2026-03-05",
-        "nav": 1.2154
+        "nav": 1.173
       },
       {
         "date": "2026-03-12",
-        "nav": 1.2154
+        "nav": 1.1718
       },
       {
         "date": "2026-03-19",
-        "nav": 1.2154
+        "nav": 1.1797
       },
       {
         "date": "2026-03-26",
-        "nav": 1.2154
+        "nav": 1.1804
       },
       {
         "date": "2026-04-02",
-        "nav": 1.2154
+        "nav": 1.1822
       },
       {
         "date": "2026-04-09",
-        "nav": 1.2154
+        "nav": 1.1761
       },
       {
         "date": "2026-04-16",
-        "nav": 1.2154
+        "nav": 1.1755
       },
       {
         "date": "2026-04-23",
-        "nav": 1.2154
+        "nav": 1.1763
       },
       {
         "date": "2026-04-30",
-        "nav": 1.2248
+        "nav": 1.185
       },
       {
         "date": "2026-05-07",
-        "nav": 1.2285
+        "nav": 1.1879
       },
       {
         "date": "2026-05-14",
-        "nav": 1.2467
+        "nav": 1.2062
       },
       {
         "date": "2026-05-21",
-        "nav": 1.2379
+        "nav": 1.1988
       },
       {
         "date": "2026-05-28",
-        "nav": 1.2395
+        "nav": 1.2044
       },
       {
         "date": "2026-06-04",
-        "nav": 1.2565
+        "nav": 1.2202
       },
       {
         "date": "2026-06-11",
-        "nav": 1.2562
+        "nav": 1.2097
       },
       {
         "date": "2026-06-18",
-        "nav": 1.2875
+        "nav": 1.2342
       },
       {
         "date": "2026-06-25",
-        "nav": 1.3423
+        "nav": 1.3076
       }
     ],
     "consensus": [
@@ -2577,499 +2578,499 @@
       },
       {
         "date": "2024-02-15",
-        "nav": 1.005
+        "nav": 1.0
       },
       {
         "date": "2024-02-22",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-02-29",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-03-07",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-03-14",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-03-21",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-03-28",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-04-04",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-04-11",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-04-18",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-04-25",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-05-02",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-05-09",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-05-16",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-05-23",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-05-30",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-06-06",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-06-13",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-06-20",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-06-27",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-07-04",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-07-11",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-07-18",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-07-25",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-08-01",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-08-08",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-08-15",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-08-22",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-08-29",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-09-05",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-09-12",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-09-19",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-09-26",
-        "nav": 1.0126
+        "nav": 1.0
       },
       {
         "date": "2024-10-03",
-        "nav": 1.0125
+        "nav": 1.0
       },
       {
         "date": "2024-10-10",
-        "nav": 1.0158
+        "nav": 1.0029
       },
       {
         "date": "2024-10-17",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2024-10-24",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2024-10-31",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2024-11-07",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2024-11-14",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2024-11-21",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2024-11-28",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2024-12-05",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2024-12-12",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2024-12-19",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2024-12-26",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-01-02",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-01-09",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-01-16",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-01-23",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-01-30",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-02-06",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-02-13",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-02-20",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-02-27",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-03-06",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-03-13",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-03-20",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-03-27",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-04-03",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-04-10",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-04-17",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-04-24",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-05-01",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-05-08",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-05-15",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-05-22",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-05-29",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-06-05",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-06-12",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-06-19",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-06-26",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-07-03",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-07-10",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-07-17",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-07-24",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-07-31",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-08-07",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-08-14",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-08-21",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-08-28",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-09-04",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-09-11",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-09-18",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-09-25",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-10-02",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-10-09",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-10-16",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-10-23",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-10-30",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-11-06",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-11-13",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-11-20",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-11-27",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-12-04",
-        "nav": 1.0169
+        "nav": 1.0022
       },
       {
         "date": "2025-12-11",
-        "nav": 1.0273
+        "nav": 1.0123
       },
       {
         "date": "2025-12-18",
-        "nav": 1.0339
+        "nav": 1.0148
       },
       {
         "date": "2025-12-25",
-        "nav": 1.0438
+        "nav": 1.0226
       },
       {
         "date": "2026-01-01",
-        "nav": 1.0438
+        "nav": 1.0226
       },
       {
         "date": "2026-01-08",
-        "nav": 1.0438
+        "nav": 1.0226
       },
       {
         "date": "2026-01-15",
-        "nav": 1.0438
+        "nav": 1.0226
       },
       {
         "date": "2026-01-22",
-        "nav": 1.0438
+        "nav": 1.0226
       },
       {
         "date": "2026-01-29",
-        "nav": 1.0438
+        "nav": 1.0226
       },
       {
         "date": "2026-02-05",
-        "nav": 1.0438
+        "nav": 1.0226
       },
       {
         "date": "2026-02-12",
-        "nav": 1.0438
+        "nav": 1.0226
       },
       {
         "date": "2026-02-19",
-        "nav": 1.0438
+        "nav": 1.0226
       },
       {
         "date": "2026-02-26",
-        "nav": 1.0437
+        "nav": 1.0226
       },
       {
         "date": "2026-03-05",
-        "nav": 1.0413
+        "nav": 1.0206
       },
       {
         "date": "2026-03-12",
-        "nav": 1.0415
+        "nav": 1.0195
       },
       {
         "date": "2026-03-19",
-        "nav": 1.0467
+        "nav": 1.0264
       },
       {
         "date": "2026-03-26",
-        "nav": 1.0467
+        "nav": 1.0264
       },
       {
         "date": "2026-04-02",
-        "nav": 1.0467
+        "nav": 1.0264
       },
       {
         "date": "2026-04-09",
-        "nav": 1.0467
+        "nav": 1.0264
       },
       {
         "date": "2026-04-16",
-        "nav": 1.0467
+        "nav": 1.0264
       },
       {
         "date": "2026-04-23",
-        "nav": 1.0467
+        "nav": 1.0264
       },
       {
         "date": "2026-04-30",
-        "nav": 1.0467
+        "nav": 1.0264
       },
       {
         "date": "2026-05-07",
-        "nav": 1.0467
+        "nav": 1.0264
       },
       {
         "date": "2026-05-14",
-        "nav": 1.0597
+        "nav": 1.0397
       },
       {
         "date": "2026-05-21",
-        "nav": 1.0555
+        "nav": 1.0349
       },
       {
         "date": "2026-05-28",
-        "nav": 1.0555
+        "nav": 1.0349
       },
       {
         "date": "2026-06-04",
-        "nav": 1.0631
+        "nav": 1.0426
       },
       {
         "date": "2026-06-11",
-        "nav": 1.0647
+        "nav": 1.0423
       },
       {
         "date": "2026-06-18",
-        "nav": 1.0726
+        "nav": 1.0451
       },
       {
         "date": "2026-06-25",
-        "nav": 1.1106
+        "nav": 1.0836
       }
     ],
     "spy": [
@@ -3905,224 +3906,224 @@
   },
   "metrics": {
     "momentum": {
-      "cagr": 0.0862,
-      "excess_cagr": 0.0642,
-      "vol": 0.0399,
-      "sharpe": 0.308,
-      "max_dd": -0.0085,
-      "hit_weeks": 0.531,
-      "avg_holdings": 0.53,
+      "cagr": 0.0754,
+      "excess_cagr": 0.0535,
+      "vol": 0.0388,
+      "sharpe": 0.246,
+      "max_dd": -0.012,
+      "hit_weeks": 0.527,
+      "avg_holdings": 0.57,
       "turnover": 0.006,
-      "sortino": 11.123,
-      "calmar": 10.191,
-      "information_ratio": 0.308,
-      "tstat_excess": 0.58,
-      "pvalue_excess": 0.5593,
-      "beta": 0.063,
-      "alpha_ann": 0.081,
+      "sortino": 7.608,
+      "calmar": 6.283,
+      "information_ratio": 0.246,
+      "tstat_excess": 0.47,
+      "pvalue_excess": 0.6417,
+      "beta": 0.065,
+      "alpha_ann": 0.0709,
       "deflated_sharpe": 0.0,
       "sharpe_ci": [
-        -0.67,
-        1.4
+        -0.74,
+        1.29
       ],
-      "avg_invested": 0.052,
-      "turnover_ann": 0.32,
+      "avg_invested": 0.056,
+      "turnover_ann": 0.328,
       "avg_cost": 0.0,
-      "max_dd_days": 280,
-      "var_5": -0.002,
-      "cvar_5": -0.0041,
-      "skew": -0.373,
-      "kurtosis": 2.835,
+      "max_dd_days": 119,
+      "var_5": -0.0025,
+      "cvar_5": -0.0053,
+      "skew": -0.389,
+      "kurtosis": 2.848,
       "yearly": {
         "2022": 0.0,
-        "2023": 0.0092,
-        "2024": 0.0884,
-        "2025": 0.0869,
-        "2026": 0.1611
+        "2023": 0.0063,
+        "2024": 0.0675,
+        "2025": 0.0822,
+        "2026": 0.146
       },
       "cost_sweep": {
         "0": {
           "bps": 0.0,
-          "cagr": 0.0863,
-          "sharpe": 0.309,
-          "max_dd": -0.0084,
-          "excess_cagr": 0.0643
+          "cagr": 0.0755,
+          "sharpe": 0.247,
+          "max_dd": -0.012,
+          "excess_cagr": 0.0536
         },
         "5": {
           "bps": 5.0,
-          "cagr": 0.086,
-          "sharpe": 0.307,
-          "max_dd": -0.0085,
-          "excess_cagr": 0.0639
+          "cagr": 0.0751,
+          "sharpe": 0.245,
+          "max_dd": -0.0121,
+          "excess_cagr": 0.0532
         },
         "10": {
           "bps": 10.0,
-          "cagr": 0.0856,
-          "sharpe": 0.305,
-          "max_dd": -0.0086,
-          "excess_cagr": 0.0636
+          "cagr": 0.0748,
+          "sharpe": 0.243,
+          "max_dd": -0.0122,
+          "excess_cagr": 0.0529
         },
         "25": {
           "bps": 25.0,
-          "cagr": 0.0846,
-          "sharpe": 0.299,
-          "max_dd": -0.0089,
-          "excess_cagr": 0.0625
+          "cagr": 0.0737,
+          "sharpe": 0.236,
+          "max_dd": -0.0125,
+          "excess_cagr": 0.0519
         },
         "50": {
           "bps": 50.0,
-          "cagr": 0.0828,
-          "sharpe": 0.289,
-          "max_dd": -0.0094,
-          "excess_cagr": 0.0608
+          "cagr": 0.0719,
+          "sharpe": 0.226,
+          "max_dd": -0.013,
+          "excess_cagr": 0.0501
         }
       }
     },
     "conviction": {
-      "cagr": 0.0774,
-      "excess_cagr": 0.0555,
-      "vol": 0.0334,
-      "sharpe": 0.257,
-      "max_dd": -0.0085,
+      "cagr": 0.0703,
+      "excess_cagr": 0.0485,
+      "vol": 0.0375,
+      "sharpe": 0.214,
+      "max_dd": -0.0086,
       "hit_weeks": 0.531,
       "avg_holdings": 0.45,
       "turnover": 0.004,
-      "sortino": 11.248,
-      "calmar": 9.148,
-      "information_ratio": 0.257,
-      "tstat_excess": 0.49,
-      "pvalue_excess": 0.6244,
-      "beta": 0.057,
-      "alpha_ann": 0.0729,
+      "sortino": 8.72,
+      "calmar": 8.151,
+      "information_ratio": 0.214,
+      "tstat_excess": 0.41,
+      "pvalue_excess": 0.6832,
+      "beta": 0.055,
+      "alpha_ann": 0.0665,
       "deflated_sharpe": 0.0,
       "sharpe_ci": [
-        -0.73,
-        1.36
+        -0.77,
+        1.27
       ],
       "avg_invested": 0.045,
-      "turnover_ann": 0.227,
+      "turnover_ann": 0.202,
       "avg_cost": 0.0,
       "max_dd_days": 112,
-      "var_5": -0.0017,
-      "cvar_5": -0.0036,
-      "skew": -0.374,
-      "kurtosis": 2.846,
+      "var_5": -0.0015,
+      "cvar_5": -0.0041,
+      "skew": -0.392,
+      "kurtosis": 2.821,
       "yearly": {
         "2022": 0.0,
         "2023": 0.0,
-        "2024": 0.0777,
-        "2025": 0.0861,
-        "2026": 0.1468
+        "2024": 0.0675,
+        "2025": 0.0688,
+        "2026": 0.146
       },
       "cost_sweep": {
         "0": {
           "bps": 0.0,
-          "cagr": 0.0775,
-          "sharpe": 0.257,
-          "max_dd": -0.0084,
-          "excess_cagr": 0.0556
+          "cagr": 0.0704,
+          "sharpe": 0.215,
+          "max_dd": -0.0086,
+          "excess_cagr": 0.0486
         },
         "5": {
           "bps": 5.0,
-          "cagr": 0.0772,
-          "sharpe": 0.256,
-          "max_dd": -0.0085,
-          "excess_cagr": 0.0553
+          "cagr": 0.0701,
+          "sharpe": 0.213,
+          "max_dd": -0.0086,
+          "excess_cagr": 0.0484
         },
         "10": {
           "bps": 10.0,
-          "cagr": 0.077,
-          "sharpe": 0.254,
-          "max_dd": -0.0086,
-          "excess_cagr": 0.0551
+          "cagr": 0.0699,
+          "sharpe": 0.212,
+          "max_dd": -0.0087,
+          "excess_cagr": 0.0482
         },
         "25": {
           "bps": 25.0,
-          "cagr": 0.0763,
-          "sharpe": 0.25,
-          "max_dd": -0.0089,
-          "excess_cagr": 0.0544
+          "cagr": 0.0693,
+          "sharpe": 0.208,
+          "max_dd": -0.0087,
+          "excess_cagr": 0.0475
         },
         "50": {
           "bps": 50.0,
-          "cagr": 0.075,
-          "sharpe": 0.243,
-          "max_dd": -0.0094,
-          "excess_cagr": 0.0532
+          "cagr": 0.0682,
+          "sharpe": 0.202,
+          "max_dd": -0.0088,
+          "excess_cagr": 0.0465
         }
       }
     },
     "consensus": {
-      "cagr": 0.0269,
-      "excess_cagr": 0.0061,
-      "vol": 0.0216,
-      "sharpe": -0.045,
-      "max_dd": -0.0039,
+      "cagr": 0.0205,
+      "excess_cagr": -0.0002,
+      "vol": 0.0214,
+      "sharpe": -0.083,
+      "max_dd": -0.0047,
       "hit_weeks": 0.531,
-      "avg_holdings": 0.09,
+      "avg_holdings": 0.08,
       "turnover": 0.003,
-      "sortino": 11.718,
-      "calmar": 6.894,
-      "information_ratio": -0.045,
-      "tstat_excess": -0.09,
-      "pvalue_excess": 0.9308,
-      "beta": 0.021,
-      "alpha_ann": 0.026,
+      "sortino": 7.832,
+      "calmar": 4.408,
+      "information_ratio": -0.083,
+      "tstat_excess": -0.16,
+      "pvalue_excess": 0.8718,
+      "beta": 0.025,
+      "alpha_ann": 0.0196,
       "deflated_sharpe": 0.0,
       "sharpe_ci": [
-        -1.06,
-        1.03
+        -1.09,
+        1.0
       ],
-      "avg_invested": 0.009,
-      "turnover_ann": 0.176,
+      "avg_invested": 0.008,
+      "turnover_ann": 0.151,
       "avg_cost": 0.0,
-      "max_dd_days": 21,
+      "max_dd_days": 420,
       "var_5": 0.0,
       "cvar_5": -0.0,
-      "skew": -0.347,
-      "kurtosis": 2.792,
+      "skew": -0.357,
+      "kurtosis": 2.805,
       "yearly": {
         "2022": 0.0,
         "2023": 0.0,
-        "2024": 0.0169,
-        "2025": 0.0264,
-        "2026": 0.0641
+        "2024": 0.0022,
+        "2025": 0.0203,
+        "2026": 0.0597
       },
       "cost_sweep": {
         "0": {
           "bps": 0.0,
-          "cagr": 0.027,
-          "sharpe": -0.044,
-          "max_dd": -0.0039,
-          "excess_cagr": 0.0061
+          "cagr": 0.0206,
+          "sharpe": -0.083,
+          "max_dd": -0.0046,
+          "excess_cagr": -0.0002
         },
         "5": {
           "bps": 5.0,
-          "cagr": 0.0268,
-          "sharpe": -0.045,
-          "max_dd": -0.004,
-          "excess_cagr": 0.0059
+          "cagr": 0.0204,
+          "sharpe": -0.084,
+          "max_dd": -0.0047,
+          "excess_cagr": -0.0003
         },
         "10": {
           "bps": 10.0,
-          "cagr": 0.0266,
-          "sharpe": -0.046,
-          "max_dd": -0.0041,
-          "excess_cagr": 0.0058
+          "cagr": 0.0203,
+          "sharpe": -0.085,
+          "max_dd": -0.0048,
+          "excess_cagr": -0.0005
         },
         "25": {
           "bps": 25.0,
-          "cagr": 0.0261,
-          "sharpe": -0.05,
-          "max_dd": -0.0044,
-          "excess_cagr": 0.0052
+          "cagr": 0.0198,
+          "sharpe": -0.087,
+          "max_dd": -0.0051,
+          "excess_cagr": -0.0009
         },
         "50": {
           "bps": 50.0,
-          "cagr": 0.0252,
-          "sharpe": -0.055,
-          "max_dd": -0.0049,
-          "excess_cagr": 0.0043
+          "cagr": 0.019,
+          "sharpe": -0.092,
+          "max_dd": -0.0056,
+          "excess_cagr": -0.0017
         }
       }
     },
@@ -4170,106 +4171,106 @@
     "by_horizon": {
       "5": {
         "n": 198,
-        "mean": 0.0211,
-        "tstat": 5.14,
-        "hit": 0.672
+        "mean": 0.0198,
+        "tstat": 5.11,
+        "hit": 0.667
       },
       "20": {
         "n": 188,
-        "mean": 0.0457,
-        "tstat": 5.92,
+        "mean": 0.0421,
+        "tstat": 6.0,
         "hit": 0.665
       },
       "60": {
         "n": 174,
-        "mean": 0.1088,
-        "tstat": 6.04,
-        "hit": 0.678
+        "mean": 0.1006,
+        "tstat": 6.23,
+        "hit": 0.621
       },
       "120": {
         "n": 164,
-        "mean": 0.2028,
-        "tstat": 6.76,
-        "hit": 0.677
+        "mean": 0.1659,
+        "tstat": 6.94,
+        "hit": 0.689
       }
     },
     "by_skill": {
       "mid": {
         "5": {
-          "n": 72,
-          "mean": 0.012,
-          "tstat": 2.69,
-          "hit": 0.639
+          "n": 64,
+          "mean": 0.0095,
+          "tstat": 2.32,
+          "hit": 0.641
         },
         "20": {
-          "n": 72,
-          "mean": 0.0389,
-          "tstat": 3.92,
-          "hit": 0.653
+          "n": 64,
+          "mean": 0.034,
+          "tstat": 3.41,
+          "hit": 0.625
         },
         "60": {
-          "n": 69,
-          "mean": 0.0792,
-          "tstat": 3.65,
-          "hit": 0.696
+          "n": 63,
+          "mean": 0.0856,
+          "tstat": 3.78,
+          "hit": 0.603
         },
         "120": {
-          "n": 68,
-          "mean": 0.153,
-          "tstat": 4.5,
-          "hit": 0.706
+          "n": 62,
+          "mean": 0.1374,
+          "tstat": 4.33,
+          "hit": 0.661
         }
       },
       "skilled": {
         "5": {
-          "n": 68,
-          "mean": 0.054,
-          "tstat": 6.24,
-          "hit": 0.868
+          "n": 72,
+          "mean": 0.0494,
+          "tstat": 6.27,
+          "hit": 0.833
         },
         "20": {
-          "n": 58,
-          "mean": 0.1153,
-          "tstat": 7.9,
-          "hit": 0.879
+          "n": 62,
+          "mean": 0.0968,
+          "tstat": 8.18,
+          "hit": 0.855
         },
         "60": {
-          "n": 49,
-          "mean": 0.297,
-          "tstat": 7.87,
-          "hit": 0.918
+          "n": 51,
+          "mean": 0.2391,
+          "tstat": 7.46,
+          "hit": 0.843
         },
         "120": {
-          "n": 42,
-          "mean": 0.55,
-          "tstat": 7.47,
-          "hit": 0.905
+          "n": 44,
+          "mean": 0.4116,
+          "tstat": 7.9,
+          "hit": 0.909
         }
       },
       "unskilled": {
         "5": {
-          "n": 58,
-          "mean": -0.0062,
-          "tstat": -1.19,
-          "hit": 0.483
+          "n": 62,
+          "mean": -0.0039,
+          "tstat": -0.76,
+          "hit": 0.5
         },
         "20": {
-          "n": 58,
-          "mean": -0.0154,
-          "tstat": -1.41,
-          "hit": 0.466
+          "n": 62,
+          "mean": -0.0043,
+          "tstat": -0.38,
+          "hit": 0.516
         },
         "60": {
-          "n": 56,
-          "mean": -0.0195,
-          "tstat": -0.89,
-          "hit": 0.446
+          "n": 60,
+          "mean": -0.0013,
+          "tstat": -0.06,
+          "hit": 0.45
         },
         "120": {
-          "n": 54,
-          "mean": -0.0046,
-          "tstat": -0.18,
-          "hit": 0.463
+          "n": 58,
+          "mean": 0.0099,
+          "tstat": 0.38,
+          "hit": 0.552
         }
       }
     },
@@ -4277,134 +4278,170 @@
       "0-7": {
         "5": {
           "n": 15,
-          "mean": 0.0245,
-          "tstat": 2.73,
-          "hit": 0.8
+          "mean": 0.0194,
+          "tstat": 2.99,
+          "hit": 0.667
         },
         "20": {
           "n": 15,
-          "mean": 0.0491,
-          "tstat": 2.84,
-          "hit": 0.733
+          "mean": 0.0456,
+          "tstat": 2.58,
+          "hit": 0.933
         },
         "60": {
           "n": 15,
-          "mean": 0.1672,
-          "tstat": 2.63,
-          "hit": 0.733
+          "mean": 0.1617,
+          "tstat": 3.21,
+          "hit": 0.8
         },
         "120": {
           "n": 14,
-          "mean": 0.2624,
-          "tstat": 2.11,
-          "hit": 0.714
+          "mean": 0.1832,
+          "tstat": 2.13,
+          "hit": 0.786
         }
       },
       "15-30": {
         "5": {
           "n": 90,
-          "mean": 0.0103,
-          "tstat": 2.0,
-          "hit": 0.644
+          "mean": 0.0112,
+          "tstat": 2.27,
+          "hit": 0.622
         },
         "20": {
           "n": 89,
-          "mean": 0.0302,
-          "tstat": 2.82,
-          "hit": 0.618
+          "mean": 0.023,
+          "tstat": 2.35,
+          "hit": 0.573
         },
         "60": {
           "n": 83,
-          "mean": 0.077,
-          "tstat": 3.08,
-          "hit": 0.639
+          "mean": 0.0658,
+          "tstat": 2.85,
+          "hit": 0.566
         },
         "120": {
           "n": 79,
-          "mean": 0.1455,
-          "tstat": 3.59,
+          "mean": 0.1197,
+          "tstat": 3.46,
           "hit": 0.608
         }
       },
       "31-45": {
         "5": {
           "n": 16,
-          "mean": 0.0156,
-          "tstat": 1.46,
-          "hit": 0.625
+          "mean": 0.0167,
+          "tstat": 1.61,
+          "hit": 0.688
         },
         "20": {
           "n": 15,
-          "mean": 0.0135,
-          "tstat": 0.65,
+          "mean": 0.0222,
+          "tstat": 1.0,
           "hit": 0.733
         },
         "60": {
           "n": 14,
-          "mean": 0.0407,
-          "tstat": 1.05,
-          "hit": 0.643
+          "mean": 0.0787,
+          "tstat": 1.87,
+          "hit": 0.571
         },
         "120": {
           "n": 13,
-          "mean": 0.1177,
-          "tstat": 2.17,
-          "hit": 0.769
+          "mean": 0.1602,
+          "tstat": 2.92,
+          "hit": 0.846
         }
       },
       "45+": {
         "5": {
           "n": 14,
-          "mean": -0.0132,
-          "tstat": -1.91,
-          "hit": 0.429
+          "mean": -0.0165,
+          "tstat": -2.3,
+          "hit": 0.357
         },
         "20": {
           "n": 14,
-          "mean": -0.0078,
-          "tstat": -0.51,
+          "mean": 0.0025,
+          "tstat": 0.15,
           "hit": 0.5
         },
         "60": {
           "n": 13,
-          "mean": -0.0087,
-          "tstat": -0.29,
-          "hit": 0.538
+          "mean": -0.0221,
+          "tstat": -0.94,
+          "hit": 0.308
         },
         "120": {
           "n": 13,
-          "mean": 0.0074,
-          "tstat": 0.18,
-          "hit": 0.538
+          "mean": 0.0016,
+          "tstat": 0.04,
+          "hit": 0.462
         }
       },
       "8-14": {
         "5": {
           "n": 63,
-          "mean": 0.0448,
-          "tstat": 4.87,
-          "hit": 0.746
+          "mean": 0.0411,
+          "tstat": 4.73,
+          "hit": 0.794
         },
         "20": {
           "n": 55,
-          "mean": 0.0923,
-          "tstat": 5.59,
-          "hit": 0.745
+          "mean": 0.0875,
+          "tstat": 6.21,
+          "hit": 0.764
         },
         "60": {
           "n": 49,
-          "mean": 0.1954,
-          "tstat": 5.08,
-          "hit": 0.776
+          "mean": 0.1798,
+          "tstat": 5.41,
+          "hit": 0.755
         },
         "120": {
           "n": 45,
-          "mean": 0.3658,
-          "tstat": 5.65,
-          "hit": 0.8
+          "mean": 0.2906,
+          "tstat": 6.03,
+          "hit": 0.822
         }
       }
     }
+  },
+  "ablations": {
+    "equal_skill": {
+      "strategy": "conviction",
+      "cagr": 0.0649,
+      "excess_cagr": 0.0432,
+      "sharpe": 0.187,
+      "tstat_excess": 0.36,
+      "max_dd": -0.0158,
+      "note": "All politicians get identical weight. Tests whether skill ranking matters."
+    },
+    "no_delay_decay": {
+      "strategy": "conviction",
+      "cagr": 0.0711,
+      "excess_cagr": 0.0494,
+      "sharpe": 0.219,
+      "tstat_excess": 0.42,
+      "max_dd": -0.0126,
+      "note": "Delay decay disabled (all lag buckets=1). Tests whether reporting lag is priced."
+    },
+    "placebo_skill": {
+      "strategy": "conviction",
+      "cagr": 0.0161,
+      "excess_cagr": -0.0046,
+      "sharpe": -0.111,
+      "tstat_excess": -0.22,
+      "max_dd": -0.0203,
+      "note": "Permute w_p across politicians each week. Should destroy planted skill."
+    }
+  },
+  "leakage": {
+    "n_trades": 199,
+    "n_with_reporting_delay": 199,
+    "n_trade_date_traps_at_last_as_of": 0,
+    "n_disclosures_after_last_as_of": 0,
+    "note": "trade_date traps are filings the public has not seen yet. Using them as event time is look-ahead. This engine never does."
   },
   "execution": {
     "lag_sessions": 1,
@@ -4417,5 +4454,5 @@
       "note": "trade_date traps are filings the public has not seen yet. Using them as event time is look-ahead. This engine never does."
     }
   },
-  "disclaimer": "Synthetic demonstration. Not investment advice. Signals are computed from disclosure_date, never trade_date. Backtest fills next session after the signal date and pays spread/impact costs."
+  "disclaimer": "Synthetic demonstration. Not investment advice. Signals are computed from disclosure_date, never trade_date. Backtest fills next session after the signal date and pays spread/impact costs. Numbers are not a live track record."
 }
