@@ -1,0 +1,38 @@
+[
+  {
+    "politician_id": "avery-hale",
+    "name": "Avery Hale",
+    "chamber": "house",
+    "party": "D",
+    "state": "VA",
+    "seniority_years": 14,
+    "committee_ids": ["hasc"]
+  },
+  {
+    "politician_id": "quinn-ellis",
+    "name": "Quinn Ellis",
+    "chamber": "senate",
+    "party": "R",
+    "state": "TX",
+    "seniority_years": 9,
+    "committee_ids": ["sasc"]
+  },
+  {
+    "politician_id": "rowan-blake",
+    "name": "Rowan Blake",
+    "chamber": "house",
+    "party": "D",
+    "state": "CA",
+    "seniority_years": 6,
+    "committee_ids": ["hasc", "science"]
+  },
+  {
+    "politician_id": "morgan-quinn",
+    "name": "Morgan Quinn",
+    "chamber": "senate",
+    "party": "D",
+    "state": "NY",
+    "seniority_years": 18,
+    "committee_ids": ["banking"]
+  }
+]

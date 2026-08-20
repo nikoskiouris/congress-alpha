@@ -82,6 +82,58 @@ def load_reference(
     con.commit()
 
 
+def upsert_politicians(con: sqlite3.Connection, politicians: list[Politician]) -> int:
+    if not politicians:
+        return 0
+    con.executemany(
+        """INSERT OR REPLACE INTO politicians(politician_id,name,chamber,party,state,seniority_years)
+           VALUES(?,?,?,?,?,?)""",
+        [
+            (p.politician_id, p.name, p.chamber, p.party, p.state, p.seniority_years)
+            for p in politicians
+        ],
+    )
+    rows = []
+    for p in politicians:
+        for cid in p.committee_ids:
+            rows.append((p.politician_id, cid, "2021-01-01", None))
+    if rows:
+        con.executemany(
+            """INSERT OR IGNORE INTO politician_committees(politician_id,committee_id,start_date,end_date)
+               VALUES(?,?,?,?)""",
+            rows,
+        )
+    con.commit()
+    return len(politicians)
+
+
+def upsert_securities(con: sqlite3.Connection, securities: list[Security]) -> int:
+    if not securities:
+        return 0
+    con.executemany(
+        """INSERT OR REPLACE INTO securities(ticker,name,sector,industry,avg_dollar_volume)
+           VALUES(?,?,?,?,?)""",
+        [
+            (s.ticker, s.name, s.sector, s.industry, s.avg_dollar_volume)
+            for s in securities
+        ],
+    )
+    con.commit()
+    return len(securities)
+
+
+def upsert_committees(con: sqlite3.Connection, committees: list[Committee]) -> int:
+    if not committees:
+        return 0
+    con.executemany(
+        """INSERT OR REPLACE INTO committees(committee_id,name,chamber,primary_sector)
+           VALUES(?,?,?,?)""",
+        [(c.committee_id, c.name, c.chamber, c.primary_sector) for c in committees],
+    )
+    con.commit()
+    return len(committees)
+
+
 def insert_trades(con: sqlite3.Connection, trades: list[TradeEvent]) -> None:
     con.executemany(
         """INSERT INTO trades(trade_id,politician_id,ticker,trade_date,disclosure_date,
