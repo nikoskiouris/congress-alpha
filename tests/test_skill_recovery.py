@@ -27,3 +27,11 @@ def test_recovers_post_disclosure_skill_not_pre_disclosure_illusion():
     tech_w = book.sector.get(("hale", "Technology"), 0.0)
     assert def_w is not None
     assert def_w > tech_w
+
+
+def test_generate_seed_is_process_stable():
+    a = generate(seed=7, start=date(2021, 1, 4), end=date(2022, 6, 30))
+    b = generate(seed=7, start=date(2021, 1, 4), end=date(2022, 6, 30))
+    assert [t.trade_id for t in a.trades] == [t.trade_id for t in b.trades]
+    assert a.prices[("LMT", date(2021, 6, 1))] == b.prices[("LMT", date(2021, 6, 1))]
+    assert a.prices[("NVDA", date(2021, 6, 1))] == b.prices[("NVDA", date(2021, 6, 1))]

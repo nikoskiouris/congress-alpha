@@ -94,10 +94,10 @@ def ablation_public(name: str, strategy_result) -> dict:
     stats = strategy_result.stats
     return {
         "strategy": "conviction",
-        "cagr": float(strategy_result.cagr),
-        "excess_cagr": float(strategy_result.excess_cagr),
-        "sharpe": float(strategy_result.sharpe),
-        "tstat_excess": float(stats.tstat_excess),
-        "max_dd": float(strategy_result.max_dd),
+        "cagr": round(float(strategy_result.cagr), 4),
+        "excess_cagr": round(float(strategy_result.excess_cagr), 4),
+        "sharpe": round(float(strategy_result.sharpe), 3),
+        "tstat_excess": round(float(stats.tstat_excess), 2),
+        "max_dd": round(float(strategy_result.max_dd), 4),
         "note": ABLATION_NOTES[name],
     }

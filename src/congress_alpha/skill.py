@@ -231,11 +231,13 @@ def fit_skill(
             premove_share[pid] = 0.0
 
         # Politician × sector
-        secs = {
-            securities[t.ticker].sector
-            for t in mine
-            if t.ticker in securities
-        }
+        secs = sorted(
+            {
+                securities[t.ticker].sector
+                for t in mine
+                if t.ticker in securities
+            }
+        )
         for sec in secs:
             blended_s = 0.0
             n_s = 0.0

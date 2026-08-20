@@ -118,7 +118,8 @@ def generate(seed: int = 7, start: date | None = None, end: date | None = None) 
     n = len(sessions)
     mkt = rng.normal(0.00028, 0.0095, n)
     sector_shock = {
-        sec: rng.normal(0.00005, 0.0065, n) for sec in {s.sector for s in securities}
+        sec: rng.normal(0.00005, 0.0065, n)
+        for sec in sorted({s.sector for s in securities})
     }
     px: dict[tuple[str, date], float] = {}
     levels: dict[str, np.ndarray] = {}
