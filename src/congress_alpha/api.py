@@ -32,6 +32,8 @@ def health():
             payload = {}
         if payload.get("mode"):
             out["mode"] = payload["mode"]
+        else:
+            out["mode"] = "synthetic"
     return out
 
 
@@ -45,7 +47,7 @@ def brief():
     p = _payload()
     leakage = p.get("leakage") or (p.get("execution") or {}).get("leakage") or {}
     return {
-        "mode": p.get("mode"),
+        "mode": p.get("mode") or "synthetic",
         "ablations": p.get("ablations") or {},
         "leakage": leakage,
         "metrics": p.get("metrics") or {},
