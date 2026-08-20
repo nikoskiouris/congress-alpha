@@ -1,0 +1,32 @@
+[
+  {
+    "committee_id": "hasc",
+    "name": "Armed Services",
+    "chamber": "house",
+    "primary_sector": "Defense"
+  },
+  {
+    "committee_id": "science",
+    "name": "Science, Space, and Technology",
+    "chamber": "house",
+    "primary_sector": "Technology"
+  },
+  {
+    "committee_id": "hfsc",
+    "name": "Financial Services",
+    "chamber": "house",
+    "primary_sector": "Financials"
+  },
+  {
+    "committee_id": "sasc",
+    "name": "Armed Services",
+    "chamber": "senate",
+    "primary_sector": "Defense"
+  },
+  {
+    "committee_id": "banking",
+    "name": "Banking, Housing, and Urban Affairs",
+    "chamber": "senate",
+    "primary_sector": "Financials"
+  }
+]
