@@ -8,6 +8,13 @@ The model answers one question:
 
 It never pretends it could have bought on `trade_date`. Senate/House PTRs can legally arrive 30/45 days late. If NVDA was bought June 1 and disclosed July 10, the backtest buys (or doesn’t) on July 10.
 
+## Status (leadership)
+
+- V1 engine: done (event-time, costs, next-session, PIT event study)
+- Live congressional alpha: NOT measured (demo is a planted DGP)
+- This sprint: ingest path, ablations, research brief, CI
+- Company demo: `python -m congress_alpha demo` then `serve`; read `data/research_brief.md`
+
 ```
 Signal_stock,t  =  Σ_p  w_p,s,t  ·  s_p,stock,t
 ```
@@ -88,6 +95,21 @@ tests/                   look-ahead + skill recovery
 ## Real filings later
 
 House Clerk public financial disclosures and Senate eFD/PTR systems are the legal source. `congress_alpha.ingest` can read community House/Senate stock-watcher JSON **as a convenience**, still keyed on `disclosure_date`. Do not train on `transaction_date`.
+
+```bash
+python -m congress_alpha ingest \
+  --trades data/fixtures/trades_ok.json \
+  --prices data/fixtures/prices.csv \
+  --politicians data/fixtures/politicians.json \
+  --securities data/fixtures/securities.json \
+  --committees data/fixtures/committees.json \
+  --db data/congress_alpha.db
+
+python -m congress_alpha run --db data/congress_alpha.db
+python -m congress_alpha brief --dash data/dashboard.json --out data/research_brief.md
+```
+
+`ingest` writes `data/ingest_report.json`. `run` is the ingested walk-forward (`mode=ingested`); `demo` stays synthetic. Neither is a live track record.
 
 This is research software, not advice. Demo data is fictional on purpose.
 

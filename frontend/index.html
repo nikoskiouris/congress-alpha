@@ -47,6 +47,7 @@
     .m span { color: var(--muted); font-size: 11px; letter-spacing: 0.06em; }
     .disc { color: var(--muted); font-size: 11px; line-height: 1.45; margin-top: 18px; }
     button.tab { cursor: pointer; }
+    .banner { color: var(--gold); font-size: 12px; letter-spacing: 0.08em; font-weight: 700; border: 1px solid var(--gold); border-radius: 10px; padding: 8px 12px; margin: 4px 0 10px; }
   </style>
 </head>
 <body>
@@ -112,15 +113,44 @@
         ${row("all", es.by_horizon)}${extra}</table>`;
     }
 
+    function ablationsTable(ab) {
+      if (!ab || !Object.keys(ab).length) return "";
+      return `<div class="sub" style="margin-top:8px">ABLATIONS</div>
+        <table><tr><th>name</th><th>sharpe</th><th>excess</th></tr>${
+          Object.entries(ab).map(([k,v]) => {
+            const row = v || {};
+            const sh = row.sharpe == null ? "—" : Number(row.sharpe).toFixed(2);
+            const ex = row.excess_cagr == null ? "—" : pct(row.excess_cagr);
+            return `<tr><td>${k}</td><td>${sh}</td><td>${ex}</td></tr>`;
+          }).join("")
+        }</table>`;
+    }
+
+    function leakageLine() {
+      const L = data.leakage || (data.execution && data.execution.leakage) || {};
+      if (L.n_with_reporting_delay == null) return "";
+      return `<div class="sub">leakage: ${L.n_with_reporting_delay} delayed filings</div>`;
+    }
+
+    function banner() {
+      const mode = data.mode || "synthetic";
+      const text = mode === "ingested"
+        ? "RESEARCH FILE — DISCLOSURE CLOCK"
+        : "SYNTHETIC DEMO — NOT A LIVE TRACK RECORD";
+      return `<div class="banner">${text}</div>`;
+    }
+
     function home() {
       const top = data.top_signals || [];
       const port = (data.portfolios || {})[strat] || [];
       const m = (data.metrics || {})[strat] || {};
       return `
+        ${banner()}
         <h1>CONGRESS SIGNAL</h1>
         <div class="score">${data.score} <span style="font-size:18px;color:#8b95a8">/ 100</span></div>
         <div class="label">${data.label}</div>
         <div class="sub">as of ${data.as_of} · event-time · post-disclosure only</div>
+        ${leakageLine()}
 
         <div class="card">
           <h1>TOP CONGRESSIONAL SIGNALS</h1>
@@ -163,6 +193,7 @@
           </div>
           ${years(m.yearly)}
           ${costSweep(m.cost_sweep)}
+          ${ablationsTable(data.ablations)}
           ${eventStudy(data.event_study)}
         </div>
 

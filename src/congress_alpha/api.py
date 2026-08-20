@@ -24,12 +24,32 @@ def _payload() -> dict:
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "has_dashboard": DEFAULT_DASH.exists()}
+    out = {"ok": True, "has_dashboard": DEFAULT_DASH.exists()}
+    if DEFAULT_DASH.exists():
+        try:
+            payload = json.loads(DEFAULT_DASH.read_text())
+        except (OSError, json.JSONDecodeError):
+            payload = {}
+        if payload.get("mode"):
+            out["mode"] = payload["mode"]
+    return out
 
 
 @app.get("/api/dashboard")
 def dashboard():
     return _payload()
+
+
+@app.get("/api/brief")
+def brief():
+    p = _payload()
+    leakage = p.get("leakage") or (p.get("execution") or {}).get("leakage") or {}
+    return {
+        "mode": p.get("mode"),
+        "ablations": p.get("ablations") or {},
+        "leakage": leakage,
+        "metrics": p.get("metrics") or {},
+    }
 
 
 @app.get("/api/signals/{ticker}")

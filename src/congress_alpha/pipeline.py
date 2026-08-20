@@ -7,6 +7,8 @@ from datetime import date
 from pathlib import Path
 
 from congress_alpha.backtest import BacktestResult, run_backtest
+from congress_alpha.brief import write_brief
+from congress_alpha.costs import CostModel
 from congress_alpha.explain import congress_score, explain_ticker
 from congress_alpha.generate import generate
 from congress_alpha.prices import PriceStore
@@ -26,6 +28,18 @@ from congress_alpha.warehouse import (
 
 DEFAULT_DB = Path("data/congress_alpha.db")
 DEFAULT_DASH = Path("data/dashboard.json")
+DEFAULT_BRIEF = Path("data/research_brief.md")
+
+
+def _invoke_backtest(*args, run_ablations: bool = True, **kwargs):
+    """Call run_backtest. Always pass run_ablations; tolerate engines that lack it yet."""
+    try:
+        return run_backtest(*args, run_ablations=run_ablations, **kwargs)
+    except TypeError as exc:
+        msg = str(exc).lower()
+        if "run_ablations" not in msg and "unexpected keyword" not in msg:
+            raise
+        return run_backtest(*args, **kwargs)
 
 
 def persist_universe(db_path: Path, seed: int = 7):
@@ -167,7 +181,14 @@ def persist_backtest(db_path: Path, result: BacktestResult, securities, politici
     con.close()
 
 
-def dashboard_payload(result: BacktestResult, securities, politicians, store: PriceStore) -> dict:
+def dashboard_payload(
+    result: BacktestResult,
+    securities,
+    politicians,
+    store: PriceStore,
+    *,
+    mode: str = "synthetic",
+) -> dict:
     as_of: date = result.last_as_of
     book: SkillBook = result.snapshots["book"]
     all_signals = result.snapshots["signals"]
@@ -292,7 +313,23 @@ def dashboard_payload(result: BacktestResult, securities, politicians, store: Pr
         metrics["spy"]["excess_cagr"] = 0.0
         metrics["spy"]["information_ratio"] = 0.0
 
+    if mode == "ingested":
+        disclaimer = (
+            "Ingested research file. Not investment advice. "
+            "Signals are computed from disclosure_date, never trade_date. "
+            "Backtest fills next session after the signal date and pays spread/impact costs. "
+            "Numbers are not a live track record."
+        )
+    else:
+        disclaimer = (
+            "Synthetic demonstration. Not investment advice. "
+            "Signals are computed from disclosure_date, never trade_date. "
+            "Backtest fills next session after the signal date and pays spread/impact costs. "
+            "Numbers are not a live track record."
+        )
+
     return {
+        "mode": mode,
         "as_of": as_of.isoformat(),
         "score": score,
         "label": label,
@@ -304,27 +341,30 @@ def dashboard_payload(result: BacktestResult, securities, politicians, store: Pr
         "nav": {s: series(s) for s in list(result.strategies) + ["spy"]},
         "metrics": metrics,
         "event_study": result.snapshots.get("event_study") or {},
+        "ablations": getattr(result, "ablations", None) or {},
+        "leakage": getattr(result, "leakage", None) or {},
         "execution": {
             "lag_sessions": result.execution_lag,
             "cost_model": result.cost_model,
             "leakage": result.leakage,
         },
-        "disclaimer": (
-            "Synthetic demonstration. Not investment advice. "
-            "Signals are computed from disclosure_date, never trade_date. "
-            "Backtest fills next session after the signal date and pays spread/impact costs."
-        ),
+        "disclaimer": disclaimer,
     }
 
 
-def run_demo(db_path: Path = DEFAULT_DB, dash_path: Path = DEFAULT_DASH, seed: int = 7) -> dict:
+def run_demo(
+    db_path: Path = DEFAULT_DB,
+    dash_path: Path = DEFAULT_DASH,
+    seed: int = 7,
+    brief_path: Path = DEFAULT_BRIEF,
+) -> dict:
     uni = persist_universe(db_path, seed=seed)
     store = PriceStore(uni.prices)
     securities = {s.ticker: s for s in uni.securities}
     committees = {c.committee_id: c for c in uni.committees}
     # Start research window after prices exist.
     bt_start = date(2022, 6, 1)
-    result = run_backtest(
+    result = _invoke_backtest(
         uni.trades,
         securities,
         uni.politicians,
@@ -332,11 +372,15 @@ def run_demo(db_path: Path = DEFAULT_DB, dash_path: Path = DEFAULT_DASH, seed: i
         store,
         start=bt_start,
         end=uni.end,
+        execution_lag=1,
+        cost_model=CostModel(),
+        run_ablations=True,
     )
     persist_backtest(db_path, result, securities, uni.politicians)
-    payload = dashboard_payload(result, securities, uni.politicians, store)
+    payload = dashboard_payload(result, securities, uni.politicians, store, mode="synthetic")
     dash_path.parent.mkdir(parents=True, exist_ok=True)
     dash_path.write_text(json.dumps(payload, indent=2))
+    write_brief(payload, brief_path)
     return payload
 
 
@@ -352,3 +396,44 @@ def load_from_db(db_path: Path = DEFAULT_DB):
     prices = fetch_prices(con)
     con.close()
     return politicians, committees, securities, trades, PriceStore(prices)
+
+
+def run_from_db(
+    db_path: Path = DEFAULT_DB,
+    dash_path: Path = DEFAULT_DASH,
+    brief_path: Path = DEFAULT_BRIEF,
+    run_ablations: bool = True,
+    start: date = date(2022, 6, 1),
+) -> dict:
+    """Walk-forward a warehouse that ingest already filled."""
+    politicians, committees, securities, trades, store = load_from_db(db_path)
+    if not isinstance(committees, dict):
+        committees = {c.committee_id: c for c in committees}
+    if not trades:
+        raise ValueError(
+            "warehouse has no trades; ingest PTR JSON first "
+            "(python -m congress_alpha ingest --trades ... --prices ...)"
+        )
+    if store.last_date is None:
+        raise ValueError(
+            "warehouse has no prices; ingest adj-close CSV first "
+            "(python -m congress_alpha ingest --trades ... --prices ...)"
+        )
+    result = _invoke_backtest(
+        trades,
+        securities,
+        politicians,
+        committees,
+        store,
+        start=start,
+        end=store.last_date,
+        execution_lag=1,
+        cost_model=CostModel(),
+        run_ablations=run_ablations,
+    )
+    persist_backtest(db_path, result, securities, politicians)
+    payload = dashboard_payload(result, securities, politicians, store, mode="ingested")
+    dash_path.parent.mkdir(parents=True, exist_ok=True)
+    dash_path.write_text(json.dumps(payload, indent=2))
+    write_brief(payload, brief_path)
+    return payload
