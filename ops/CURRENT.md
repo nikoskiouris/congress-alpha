@@ -2,5 +2,5 @@ ticket: none
 status: idle
 branch: none
 started: none
-next: CA-002
-notes: CA-001 merged. next GO is watcher dump fetch + manifest.
+next: CA-003
+notes: CA-002 merged. next GO is API watermark tests.
