@@ -2,6 +2,12 @@
 
 Newest first. One block per GO.
 
+## 2026-08-20 — CA-003 API watermark tests
+
+- `/api/health`, `/api/brief`, `/api/dashboard` tests on a temp dashboard.json.
+- Missing `mode` still reports synthetic. Ingested is not live.
+- Next GO is CA-004 ingest hygiene in the research brief.
+
 ## 2026-08-20 — CA-002 watcher dump fetch
 
 - CLI `fetch` writes community watcher JSON + `manifest.json` (fetched_at, url, sha256).

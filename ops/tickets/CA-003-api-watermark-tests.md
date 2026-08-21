@@ -2,7 +2,7 @@
 id: CA-003
 title: API watermark tests
 priority: P0
-status: ready
+status: done
 type: test
 effort: S
 merge: auto
@@ -19,9 +19,9 @@ If `/api/health` or `/api/brief` ever omit `synthetic`, someone will paste numbe
 `api.py` already returns mode. No tests. Easy to regress.
 
 ## Done when
-- [ ] Tests hit `/api/health`, `/api/brief`, `/api/dashboard` with a temp dashboard.json
-- [ ] `mode=synthetic` required; brief payload not empty
-- [ ] A dashboard missing `mode` still reports synthetic (current health fallback)
+- [x] Tests hit `/api/health`, `/api/brief`, `/api/dashboard` with a temp dashboard.json
+- [x] `mode=synthetic` required; brief payload not empty
+- [x] A dashboard missing `mode` still reports synthetic (current health fallback)
 
 ## Likely files
 `tests/test_api.py`, `src/congress_alpha/api.py` only if fallback is broken

@@ -2,5 +2,5 @@ ticket: none
 status: idle
 branch: none
 started: none
-next: CA-003
-notes: CA-002 merged. next GO is API watermark tests.
+next: CA-004
+notes: CA-003 merged. next GO is ingest hygiene in the research brief.

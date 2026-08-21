@@ -73,6 +73,73 @@ def test_ingest_fixture_counts_reasons(tmp_path, monkeypatch):
     assert "disclosure_date" in body["note"]
 
 
+def _client_for_dash(tmp_path, monkeypatch, payload: dict) -> TestClient:
+    path = tmp_path / "dashboard.json"
+    path.write_text(json.dumps(payload))
+    monkeypatch.setattr(api, "DEFAULT_DASH", path)
+    return TestClient(api.app)
+
+
+def test_health_brief_dashboard_require_synthetic_mode(tmp_path, monkeypatch):
+    client = _client_for_dash(
+        tmp_path,
+        monkeypatch,
+        {
+            "mode": "synthetic",
+            "metrics": {"cagr": 0.07, "sharpe": 0.2},
+            "ablations": {"equal_skill": {"sharpe": 0.1}},
+            "leakage": {"n_trades": 10, "n_with_delay": 10},
+        },
+    )
+    health = client.get("/api/health").json()
+    assert health["ok"] is True
+    assert health["has_dashboard"] is True
+    assert health["mode"] == "synthetic"
+    brief = client.get("/api/brief").json()
+    assert brief["mode"] == "synthetic"
+    assert brief["metrics"]["cagr"] == 0.07
+    assert brief["ablations"]["equal_skill"]["sharpe"] == 0.1
+    assert brief["leakage"]["n_with_delay"] == 10
+    dash = client.get("/api/dashboard").json()
+    assert dash["mode"] == "synthetic"
+    assert dash["metrics"]["sharpe"] == 0.2
+
+
+def test_dashboard_missing_mode_still_reports_synthetic(tmp_path, monkeypatch):
+    client = _client_for_dash(
+        tmp_path,
+        monkeypatch,
+        {
+            "metrics": {"cagr": 0.01},
+            "ablations": {"perm_skill": {"sharpe": -0.1}},
+            "execution": {"leakage": {"n_trades": 3}},
+        },
+    )
+    assert client.get("/api/health").json()["mode"] == "synthetic"
+    brief = client.get("/api/brief").json()
+    assert brief["mode"] == "synthetic"
+    assert brief["metrics"] == {"cagr": 0.01}
+    assert brief["ablations"] == {"perm_skill": {"sharpe": -0.1}}
+    assert brief["leakage"] == {"n_trades": 3}
+    assert brief["mode"] != "live"
+
+
+def test_ingested_mode_is_research_file_not_live(tmp_path, monkeypatch):
+    client = _client_for_dash(
+        tmp_path,
+        monkeypatch,
+        {"mode": "ingested", "metrics": {"cagr": 0.02}, "ablations": {}},
+    )
+    assert client.get("/api/health").json()["mode"] == "ingested"
+    brief = client.get("/api/brief").json()
+    assert brief["mode"] == "ingested"
+    assert brief["mode"] != "live"
+    assert brief["metrics"] == {"cagr": 0.02}
+    blob = json.dumps(brief).lower()
+    assert "live track record" not in blob
+    assert client.get("/api/dashboard").json()["mode"] == "ingested"
+
+
 def test_banner_copy_unchanged():
     html = FRONTEND.read_text()
     assert "RESEARCH FILE — DISCLOSURE CLOCK" in html
