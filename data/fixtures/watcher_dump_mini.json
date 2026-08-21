@@ -1,0 +1,19 @@
+[
+  {
+    "representative": "Avery Hale",
+    "ticker": "LMT",
+    "type": "purchase",
+    "transaction_date": "2023-06-01",
+    "disclosure_date": "2023-06-12",
+    "amount": "$15,001 - $50,000",
+    "owner": "self"
+  },
+  {
+    "representative": "No Clock",
+    "ticker": "NVDA",
+    "type": "purchase",
+    "transaction_date": "2023-07-05",
+    "amount": "$1,001 - $15,000",
+    "owner": "self"
+  }
+]

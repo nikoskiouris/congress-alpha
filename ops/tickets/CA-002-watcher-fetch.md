@@ -2,7 +2,7 @@
 id: CA-002
 title: Watcher dump fetch + manifest
 priority: P0
-status: ready
+status: done
 type: research
 effort: L
 merge: auto
@@ -19,11 +19,11 @@ Rollout needs a path off the planted DGP. Leadership keeps asking when live fili
 `congress_alpha.ingest` reads local watcher JSON. No fetch, no manifest, no recorded as-of. Easy to mix transaction_date into the clock.
 
 ## Done when
-- [ ] CLI `python -m congress_alpha fetch --source house-watcher --out data/raw/` (or senate-watcher) writes files + `manifest.json` with fetched_at, source URL, sha256
-- [ ] Ingest still keyed on `disclosure_date`; fetch must not rename that field to trade_date
-- [ ] Test uses a tiny recorded fixture, not a live network call in CI
-- [ ] README one-liner: convenience dump, House Clerk / Senate eFD remain legal source
-- [ ] Output still watermarked RESEARCH FILE after `run`
+- [x] CLI `python -m congress_alpha fetch --source house-watcher --out data/raw/` (or senate-watcher) writes files + `manifest.json` with fetched_at, source URL, sha256
+- [x] Ingest still keyed on `disclosure_date`; fetch must not rename that field to trade_date
+- [x] Test uses a tiny recorded fixture, not a live network call in CI
+- [x] README one-liner: convenience dump, House Clerk / Senate eFD remain legal source
+- [x] Output still watermarked RESEARCH FILE after `run`
 
 ## Likely files
 `src/congress_alpha/cli.py`, new `src/congress_alpha/fetch.py`, `tests/test_fetch.py`, `README.md`

@@ -95,7 +95,7 @@ tests/                   look-ahead, skill recovery, ingest, ablations
 
 ## Real filings later
 
-House Clerk public financial disclosures and Senate eFD/PTR systems are the legal source. `congress_alpha.ingest` can read community House/Senate stock-watcher JSON **as a convenience**, still keyed on `disclosure_date`. Do not train on `transaction_date`.
+House Clerk public financial disclosures and Senate eFD/PTR systems are the legal source. `python -m congress_alpha fetch --source house-watcher --out data/raw/` (or `senate-watcher`) writes a **convenience dump** plus `manifest.json` (`fetched_at`, source URL, sha256); it does not rename `disclosure_date`. `congress_alpha.ingest` can read that JSON still keyed on `disclosure_date`. Do not train on `transaction_date`.
 
 ```bash
 python -m congress_alpha ingest \
