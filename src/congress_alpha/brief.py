@@ -165,6 +165,95 @@ def _event_line(label: str, cell: dict) -> str:
     )
 
 
+def _ingest_for_brief(payload: dict) -> dict:
+    ingest = payload.get("ingest")
+    if isinstance(ingest, dict) and ingest:
+        return ingest
+    mode = str(payload.get("mode") or "synthetic")
+    if mode == "ingested":
+        return {
+            "mode": "ingested",
+            "n_read": 0,
+            "n_accepted": 0,
+            "n_rejected": 0,
+            "reasons": [],
+            "note": (
+                "ingest summary missing from payload; file hygiene unknown. "
+                "Reject counts are not alpha. Numbers are not a live track record."
+            ),
+        }
+    return {
+        "mode": "synthetic",
+        "n_read": 0,
+        "n_accepted": 0,
+        "n_rejected": 0,
+        "reasons": [],
+        "note": (
+            "synthetic DGP — not a live track record and not alpha. "
+            "No filings were ingested."
+        ),
+    }
+
+
+def _count(value) -> int:
+    try:
+        return int(value or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def _data_hygiene_lines(ingest: dict) -> list[str]:
+    mode = str(ingest.get("mode") or "synthetic")
+    n_read = _count(ingest.get("n_read"))
+    n_accepted = _count(ingest.get("n_accepted"))
+    n_rejected = _count(ingest.get("n_rejected"))
+    reasons = ingest.get("reasons") or []
+    lines = [
+        "## DATA HYGIENE",
+        "",
+        "Reject counts are file hygiene, not alpha.",
+        "",
+        f"Mode: `{mode}`",
+        f"n_read: {n_read}",
+        f"n_accepted: {n_accepted}",
+        f"n_rejected: {n_rejected}",
+        "",
+    ]
+    if mode == "synthetic":
+        lines.extend(
+            [
+                "n_read is 0 because this is a synthetic DGP. "
+                "THESE NUMBERS ARE NOT A LIVE TRACK RECORD.",
+                "",
+            ]
+        )
+    lines.extend(
+        [
+            "Top reject reasons:",
+            "",
+            "| reason | n |",
+            "|---|---:|",
+        ]
+    )
+    wrote = False
+    if isinstance(reasons, list):
+        for row in reasons:
+            if not isinstance(row, dict):
+                continue
+            reason = row.get("reason")
+            if not reason:
+                continue
+            lines.append(f"| {reason} | {_count(row.get('n'))} |")
+            wrote = True
+    if not wrote:
+        lines.append("| — | 0 |")
+    note = str(ingest.get("note") or "").strip()
+    if note:
+        lines.extend(["", f"Note: {note}"])
+    lines.append("")
+    return lines
+
+
 def render_brief(payload: dict) -> str:
     mode = str(payload.get("mode") or "synthetic")
     label, watermark = _classification(mode)
@@ -220,12 +309,17 @@ def render_brief(payload: dict) -> str:
         "Senate/House PTRs can legally arrive 30/45 days late. A June 1 NVDA buy "
         "disclosed July 10 is tradable (or not) on July 10, not June 1.",
         "",
-        "## Headline walk-forward metrics",
-        "",
-        "Next-session fill, costs on, DISCLOSURE clock only. Books: conviction, "
-        "consensus, momentum, spy (if present).",
-        "",
     ]
+    lines.extend(_data_hygiene_lines(_ingest_for_brief(payload)))
+    lines.extend(
+        [
+            "## Headline walk-forward metrics",
+            "",
+            "Next-session fill, costs on, DISCLOSURE clock only. Books: conviction, "
+            "consensus, momentum, spy (if present).",
+            "",
+        ]
+    )
     lines.extend(_metric_rows(metrics))
     lines.extend(
         [
