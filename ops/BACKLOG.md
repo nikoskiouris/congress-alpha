@@ -14,7 +14,7 @@ Director 2026-08-24: path is frozen real filings, not fake-demo forever. Officia
 | CA-011 | P1 | ready | feature | M | Fixture dump on phone (RESEARCH FILE path) |
 | CA-012 | P1 | ready | research | L | Frozen adj-close snapshot for dump tickers |
 | CA-008 | P1 | ready | test | M | Price holes do not invent returns |
-| CA-006 | P2 | ready | feature | S | WHY panel already-moved % |
+| CA-006 | P2 | done | feature | S | WHY panel already-moved % |
 | CA-005 | P2 | ready | research | M | Extra falsification ablations |
 | CA-007 | P2 | ready | chore | S | Makefile run + ruff extra |
 | CA-009 | P3 | blocked | research | L | Official Clerk/eFD parse |

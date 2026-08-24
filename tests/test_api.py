@@ -148,3 +148,30 @@ def test_banner_copy_unchanged():
     assert "/api/ingest" in html
     assert "INGEST" in html
     assert "synthetic — no filings" in html
+
+
+def test_why_panel_exposes_premove_pct(tmp_path, monkeypatch):
+    client = _client_for_dash(
+        tmp_path,
+        monkeypatch,
+        {
+            "mode": "synthetic",
+            "explanations": {
+                "LMT": {
+                    "ticker": "LMT",
+                    "score": 71,
+                    "premove_pct": 8.2,
+                    "people": [{"name": "Ace", "committee": True, "weight": 0.4}],
+                }
+            },
+        },
+    )
+    body = client.get("/api/signals/LMT").json()
+    assert body["premove_pct"] == 8.2
+    assert body["ticker"] == "LMT"
+    html = FRONTEND.read_text()
+    assert "premove_pct" in html
+    assert "ALREADY MOVED" in html
+    assert "Before the filing" in html
+    assert "Filing is the event" in html
+    assert "★ = relevant committee. Weights are post-disclosure skill, not name recognition." in html

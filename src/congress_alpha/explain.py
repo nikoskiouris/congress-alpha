@@ -57,6 +57,7 @@ def explain_ticker(
             }
         )
 
+    premove_pct = _premove_pct(sig, store)
     pre_move = store.return_between(
         sig.ticker,
         min((f.trade.trade_date for f in sig.features), default=as_of),
@@ -114,10 +115,33 @@ def explain_ticker(
         "negatives": negatives,
         "people": people,
         "pre_move": None if pre_move is None else round(pre_move, 4),
+        "premove_pct": premove_pct,
         "sector_alpha": round(mean_sec_alpha, 4),
         "decayed_frac": round(max(decayed, 0.0), 3),
         "blurb": _blurb(sig, positives, negatives, decayed),
     }
+
+
+def _premove_pct(sig: TickerSignal, store: PriceStore) -> float | None:
+    """Mean signed excess vs SPY from trade_date to disclosure_date.
+
+    Feature only. Never an event clock. Caps prints at each filing's
+    disclosure_date so a post-filing drift cannot inflate the number.
+    """
+    vals: list[float] = []
+    for f in sig.features:
+        xs = store.excess_return(
+            f.trade.ticker,
+            f.trade.trade_date,
+            f.trade.disclosure_date,
+            no_later_than=f.trade.disclosure_date,
+        )
+        if xs is None:
+            continue
+        vals.append(f.trade.direction * xs)
+    if not vals:
+        return None
+    return round(100.0 * (sum(vals) / len(vals)), 1)
 
 
 def _squash(x: float) -> float:

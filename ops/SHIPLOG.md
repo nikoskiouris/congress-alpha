@@ -2,6 +2,12 @@
 
 Newest first. One block per GO.
 
+## 2026-08-24 — CA-006 WHY already-moved percent
+
+- WHY JSON now has `premove_pct`: signed excess vs SPY from trade date to disclosure.
+- Phone WHY card shows ALREADY MOVED. Filing is the event. Committee star still display-only.
+- Next GO is CA-004 ingest hygiene in the research brief.
+
 ## 2026-08-24 — board: real-dump on-ramp
 
 - Director wants a path to a tradable research app. Fake DGP forever is out. No scrape this chat. No broker.
