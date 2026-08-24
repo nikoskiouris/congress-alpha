@@ -248,6 +248,24 @@
       `;
     }
 
+    function fmtPremove(v) {
+      if (v == null || !Number.isFinite(Number(v))) return "n/a";
+      const n = Number(v);
+      return (n > 0 ? "+" : "") + n.toFixed(1) + "%";
+    }
+
+    function premoveCard(e) {
+      const shown = fmtPremove(e.premove_pct);
+      const n = Number(e.premove_pct);
+      const hot = Number.isFinite(n) && Math.abs(n) >= 6;
+      return `
+        <div class="card" id="premove">
+          <h1>ALREADY MOVED</h1>
+          <div class="score ${hot ? "neg" : ""}" style="font-size:32px">${shown}</div>
+          <p class="sub">Before the filing (trade date → disclosure vs SPY). Filing is the event. Not a live book.</p>
+        </div>`;
+    }
+
     function why() {
       const e = (data.explanations || {})[ticker];
       if (!e) return `<div class="back" onclick="goHome()">← back</div><p>no signal</p>`;
@@ -257,6 +275,7 @@
           <h2>WHY ${e.ticker}?</h2>
           <div class="score">${e.score} <span style="font-size:16px;color:#8b95a8">/ 100</span></div>
           <p class="sub">${e.blurb}</p>
+          ${premoveCard(e)}
           <div class="card">
             <ul>
               ${(e.positives||[]).map(x => `<li class="pos">+ ${x}</li>`).join("")}
