@@ -31,6 +31,8 @@ DEFAULT_DB = Path("data/congress_alpha.db")
 DEFAULT_DASH = Path("data/dashboard.json")
 DEFAULT_INGEST_REPORT = Path("data/ingest_report.json")
 DEFAULT_BRIEF = Path("data/research_brief.md")
+FIXTURE_DIR = Path(__file__).resolve().parents[2] / "data" / "fixtures"
+FIXTURE_RUN_START = date(2023, 6, 1)
 
 _DISCLOSURE_NOTE = "Signals may only use disclosure_date as event time."
 _SYNTHETIC_INGEST_NOTE = (
@@ -534,3 +536,45 @@ def run_from_db(
     dash_path.write_text(json.dumps(payload, indent=2))
     write_brief(payload, brief_path)
     return payload
+
+
+def run_fixture_dump(
+    db_path: Path = DEFAULT_DB,
+    dash_path: Path = DEFAULT_DASH,
+    brief_path: Path = DEFAULT_BRIEF,
+    ingest_report_path: Path = DEFAULT_INGEST_REPORT,
+    *,
+    start: date = FIXTURE_RUN_START,
+    run_ablations: bool = True,
+) -> dict:
+    """Ingest recorded fixtures, then walk-forward.
+
+    Writes ``mode=ingested`` dashboard JSON. RESEARCH FILE, not a live book.
+    Does not fetch House Clerk / Senate eFD. Does not place trades.
+    """
+    from congress_alpha.ingest import apply_ingest
+
+    fx = FIXTURE_DIR
+    report = apply_ingest(
+        db_path,
+        trades_path=fx / "trades_ok.json",
+        prices_path=fx / "prices.csv",
+        source="house-stock-watcher",
+        politicians_path=fx / "politicians.json",
+        securities_path=fx / "securities.json",
+        committees_path=fx / "committees.json",
+        reset=True,
+    )
+    ingest_report_path = Path(ingest_report_path)
+    ingest_report_path.parent.mkdir(parents=True, exist_ok=True)
+    ingest_report_path.write_text(
+        json.dumps(report.as_public_dict(), indent=2, default=str)
+    )
+    return run_from_db(
+        db_path=db_path,
+        dash_path=dash_path,
+        brief_path=brief_path,
+        run_ablations=run_ablations,
+        start=start,
+        ingest_report_path=ingest_report_path,
+    )

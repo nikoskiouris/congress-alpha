@@ -35,6 +35,15 @@ Open `http://127.0.0.1:8000`. Dashboard is mobile-first.
 
 `demo` builds a **synthetic** Congress (fictional names, planted ground-truth skill), walk-forward backtests three books, writes `data/congress_alpha.db` + `data/dashboard.json`.
 
+Recorded fixture dump (RESEARCH FILE, still not a live track record, no House/Senate scrape):
+
+```bash
+make research-file
+python -m congress_alpha serve
+```
+
+That one command ingests `data/fixtures/` then walk-forwards. `data/dashboard.json` is `mode=ingested`. The phone banner is RESEARCH FILE. Not a broker.
+
 ```bash
 python -m congress_alpha backtest
 ```
@@ -99,6 +108,12 @@ tests/                   look-ahead, skill recovery, ingest, ablations
 House Clerk public financial disclosures and Senate eFD/PTR systems are the legal source. `python -m congress_alpha fetch --source house-watcher --out data/raw/` (or `senate-watcher`) writes a **convenience dump** plus `manifest.json` (`fetched_at`, source URL, sha256); it does not rename `disclosure_date`. `congress_alpha.ingest` can read that JSON still keyed on `disclosure_date`. Do not train on `transaction_date`.
 
 ```bash
+make research-file
+```
+
+Same path, spelled out:
+
+```bash
 python -m congress_alpha ingest \
   --trades data/fixtures/trades_ok.json \
   --prices data/fixtures/prices.csv \
@@ -111,7 +126,7 @@ python -m congress_alpha run --db data/congress_alpha.db
 python -m congress_alpha brief --dash data/dashboard.json --out data/research_brief.md
 ```
 
-`ingest` writes `data/ingest_report.json`. `run` is the ingested walk-forward (`mode=ingested`); `demo` stays synthetic. Neither is a live track record.
+`research-file` (and `ingest`) writes `data/ingest_report.json`. `run` is the ingested walk-forward (`mode=ingested`); `demo` stays synthetic. Neither is a live track record.
 
 This is research software, not advice. Demo data is fictional on purpose.
 
