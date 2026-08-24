@@ -10,7 +10,7 @@ This table is the director view. TPO updates it when status changes.
 | CA-003 | P0 | done | test | S | API watermark tests |
 | CA-004 | P1 | ready | feature | M | Ingest hygiene in research brief |
 | CA-005 | P1 | ready | research | M | Extra falsification ablations |
-| CA-006 | P1 | ready | feature | S | WHY panel already-moved % |
+| CA-006 | P1 | done | feature | S | WHY panel already-moved % |
 | CA-007 | P2 | ready | chore | S | Makefile run + ruff extra |
 | CA-008 | P2 | ready | test | M | Price holes do not invent returns |
 | CA-009 | P3 | blocked | research | L | Official Clerk/eFD parse |

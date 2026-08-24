@@ -2,6 +2,12 @@
 
 Newest first. One block per GO.
 
+## 2026-08-24 — CA-006 WHY already-moved percent
+
+- WHY JSON now has `premove_pct`: signed excess vs SPY from trade date to disclosure.
+- Phone WHY card shows ALREADY MOVED. Filing is the event. Committee star still display-only.
+- Next GO is CA-004 ingest hygiene in the research brief.
+
 ## 2026-08-20 — CA-003 API watermark tests
 
 - `/api/health`, `/api/brief`, `/api/dashboard` tests on a temp dashboard.json.

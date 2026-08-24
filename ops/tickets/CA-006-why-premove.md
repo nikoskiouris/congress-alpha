@@ -2,7 +2,7 @@
 id: CA-006
 title: WHY panel already-moved percent
 priority: P1
-status: ready
+status: done
 type: feature
 effort: S
 merge: auto
@@ -19,9 +19,9 @@ Phone WHY screen must answer "did this name already move before the filing?" in 
 `explain.py` has positives/negatives text. PremoveDecay is in the formula, not a first-class WHY field.
 
 ## Done when
-- [ ] WHY JSON includes `premove_pct` (or similar) for the ticker
-- [ ] Phone WHY card shows it
-- [ ] Test on toy universe
+- [x] WHY JSON includes `premove_pct` (or similar) for the ticker
+- [x] Phone WHY card shows it
+- [x] Test on toy universe
 
 ## Likely files
 `src/congress_alpha/explain.py`, `frontend/index.html`, `tests/` (portfolio or new)
