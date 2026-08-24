@@ -1,7 +1,7 @@
 ---
 id: CA-005
 title: Extra falsification ablations
-priority: P1
+priority: P2
 status: ready
 type: research
 effort: M
@@ -13,7 +13,7 @@ blocked_by: []
 # CA-005 Extra falsification ablations
 
 ## Why director
-If placebo still looks good, we cannot tell leadership skill is a finding. Need more ways to kill the book.
+If placebo still looks good, we cannot tell leadership skill is a finding. Need more ways to kill the book. Runs after the dump on-ramp: Director wants real filings in the pipe before more synthetic-demo science.
 
 ## Why engine
 Have equal_skill, no_delay_decay, placebo_skill. Missing: no_life, no_premove. A disclosure-date shuffle that should destroy PIT skill.

@@ -2,6 +2,12 @@
 
 Newest first. One block per GO.
 
+## 2026-08-24 — board: real-dump on-ramp
+
+- Director wants a path to a tradable research app. Fake DGP forever is out. No scrape this chat. No broker.
+- New CA-011 (fixture dump on phone) and CA-012 (frozen prices). CA-006 demoted. CA-008 promoted. CA-009 still gated.
+- Next GO is CA-004 ingest hygiene in the research brief.
+
 ## 2026-08-20 — CA-003 API watermark tests
 
 - `/api/health`, `/api/brief`, `/api/dashboard` tests on a temp dashboard.json.

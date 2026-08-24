@@ -7,13 +7,13 @@ type: research
 effort: L
 merge: auto
 director_gate: true
-blocked_by: ["CA-002"]
+blocked_by: ["CA-002", "CA-011", "CA-012"]
 ---
 
 # CA-009 Official Clerk / eFD parse
 
 ## Why director
-Legal source. Not this sprint. Convenience dumps first.
+Legal source. Not this sprint. Convenience dumps first. Director wants a real-data path, but official HTML/PDF scrape stays locked until the dump+prices pipe is on the phone.
 
 ## Why engine
 House Clerk + Senate eFD are the record. HTML/PDF/XML. Easy to grab transaction_date as as-of.

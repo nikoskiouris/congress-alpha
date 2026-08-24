@@ -12,7 +12,7 @@ It never pretends it could have bought on `trade_date`. Senate/House PTRs can le
 
 - V1 engine: done (event-time, costs, next-session, PIT event study)
 - Live congressional alpha: NOT measured (demo is a planted DGP)
-- This sprint: ingest path, ablations, research brief, CI
+- This sprint: **frozen real-dump on-ramp** (ingest hygiene → fixture on phone → frozen prices). Official House/Senate scrape still gated. Not a broker.
 - Company demo: `python -m congress_alpha demo` then `serve`; read `data/research_brief.md`
 - Future map: [What's next](#whats-next-future-map)
 
@@ -119,7 +119,7 @@ See [spec/MODEL.md](spec/MODEL.md) for schema, training, walk-forward rules, and
 
 ## What's next (future map)
 
-TPO brainstorm, 2026-08. Ideas, not commitments — `go` still ships one ticket at a time and the board (`ops/`) decides. Two laws hold for every idea below: `disclosure_date` is the only event time, and nothing synthetic or ingested is ever presented as a live track record. Every idea ships with the test that could kill it.
+TPO brainstorm, 2026-08. Ideas, not commitments — `go` still ships one ticket at a time and the board (`ops/`) decides. **Director 2026-08-24: walk `go` toward frozen real filings (Stage B dump + prices) before more fake-demo chrome or official scrape.** Two laws hold for every idea below: `disclosure_date` is the only event time, and nothing synthetic or ingested is ever presented as a live track record. Every idea ships with the test that could kill it.
 
 ### 1. Prove it or kill it — harsher judges (Stage B)
 
