@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from collections import Counter
 from datetime import date
 from pathlib import Path
 
@@ -30,6 +31,81 @@ DEFAULT_DB = Path("data/congress_alpha.db")
 DEFAULT_DASH = Path("data/dashboard.json")
 DEFAULT_INGEST_REPORT = Path("data/ingest_report.json")
 DEFAULT_BRIEF = Path("data/research_brief.md")
+
+_DISCLOSURE_NOTE = "Signals may only use disclosure_date as event time."
+_SYNTHETIC_INGEST_NOTE = (
+    "synthetic DGP — not a live track record and not alpha. "
+    "No filings were ingested."
+)
+_MISSING_INGEST_NOTE = (
+    "ingest report file was missing; file hygiene unknown. "
+    "Reject counts are not alpha. Numbers are not a live track record."
+)
+
+
+def synthetic_ingest_summary() -> dict:
+    """API-shaped zeros for the planted DGP. Not a live book and not alpha."""
+    return {
+        "mode": "synthetic",
+        "n_read": 0,
+        "n_accepted": 0,
+        "n_rejected": 0,
+        "reasons": [],
+        "note": _SYNTHETIC_INGEST_NOTE,
+    }
+
+
+def ingest_summary_from_raw(raw: dict) -> dict:
+    """Counter over rejected[].reason. Does not copy the rejected row list."""
+    rejected = raw.get("rejected") or []
+    counts: Counter[str] = Counter()
+    if isinstance(rejected, list):
+        for row in rejected:
+            if isinstance(row, dict) and row.get("reason"):
+                counts[str(row["reason"])] += 1
+    note = raw.get("note") or _DISCLOSURE_NOTE
+    return {
+        "mode": "ingested",
+        "n_read": int(raw.get("n_read") or 0),
+        "n_accepted": int(raw.get("n_accepted") or 0),
+        "n_rejected": int(raw.get("n_rejected") or 0),
+        "reasons": [{"reason": reason, "n": n} for reason, n in counts.most_common()],
+        "note": note,
+    }
+
+
+def ingest_summary_from_report(
+    path: Path | None = None,
+    *,
+    on_missing: str = "synthetic",
+) -> dict:
+    """Summarize ingest_report.json the same way GET /api/ingest does.
+
+    on_missing:
+      - ``synthetic`` (demo / API with no file): zeros, mode synthetic
+      - ``ingested`` (run_from_db with no report): zeros, mode ingested, hygiene unknown
+    """
+    target = Path(path) if path is not None else DEFAULT_INGEST_REPORT
+    raw: dict | None = None
+    if target.exists():
+        try:
+            loaded = json.loads(target.read_text())
+        except (OSError, json.JSONDecodeError, TypeError):
+            loaded = None
+        if isinstance(loaded, dict):
+            raw = loaded
+    if raw is None:
+        if on_missing == "ingested":
+            return {
+                "mode": "ingested",
+                "n_read": 0,
+                "n_accepted": 0,
+                "n_rejected": 0,
+                "reasons": [],
+                "note": _MISSING_INGEST_NOTE,
+            }
+        return synthetic_ingest_summary()
+    return ingest_summary_from_raw(raw)
 
 
 def persist_universe(db_path: Path, seed: int = 7):
@@ -178,6 +254,8 @@ def dashboard_payload(
     store: PriceStore,
     *,
     mode: str = "synthetic",
+    ingest: dict | None = None,
+    ingest_report_path: Path | None = None,
 ) -> dict:
     as_of: date = result.last_as_of
     book: SkillBook = result.snapshots["book"]
@@ -318,8 +396,18 @@ def dashboard_payload(
             "Numbers are not a live track record."
         )
 
+    if ingest is None:
+        if mode == "synthetic":
+            ingest = synthetic_ingest_summary()
+        else:
+            ingest = ingest_summary_from_report(
+                ingest_report_path if ingest_report_path is not None else DEFAULT_INGEST_REPORT,
+                on_missing="ingested",
+            )
+
     return {
         "mode": mode,
+        "ingest": ingest,
         "as_of": as_of.isoformat(),
         "score": score,
         "label": label,
@@ -367,7 +455,14 @@ def run_demo(
         run_ablations=True,
     )
     persist_backtest(db_path, result, securities, uni.politicians)
-    payload = dashboard_payload(result, securities, uni.politicians, store, mode="synthetic")
+    payload = dashboard_payload(
+        result,
+        securities,
+        uni.politicians,
+        store,
+        mode="synthetic",
+        ingest=synthetic_ingest_summary(),
+    )
     dash_path.parent.mkdir(parents=True, exist_ok=True)
     dash_path.write_text(json.dumps(payload, indent=2))
     write_brief(payload, brief_path)
@@ -394,6 +489,7 @@ def run_from_db(
     brief_path: Path = DEFAULT_BRIEF,
     run_ablations: bool = True,
     start: date = date(2022, 6, 1),
+    ingest_report_path: Path | None = None,
 ) -> dict:
     """Walk-forward a warehouse that ingest already filled."""
     politicians, committees, securities, trades, store = load_from_db(db_path)
@@ -426,7 +522,14 @@ def run_from_db(
             "backtest produced no skill book; need more history after the 180-day warmup"
         )
     persist_backtest(db_path, result, securities, politicians)
-    payload = dashboard_payload(result, securities, politicians, store, mode="ingested")
+    payload = dashboard_payload(
+        result,
+        securities,
+        politicians,
+        store,
+        mode="ingested",
+        ingest_report_path=ingest_report_path,
+    )
     dash_path.parent.mkdir(parents=True, exist_ok=True)
     dash_path.write_text(json.dumps(payload, indent=2))
     write_brief(payload, brief_path)

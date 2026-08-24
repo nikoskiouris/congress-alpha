@@ -1,25 +1,21 @@
 from __future__ import annotations
 
 import json
-from collections import Counter
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from congress_alpha.pipeline import DEFAULT_DASH, DEFAULT_DB, DEFAULT_INGEST_REPORT, run_demo
+from congress_alpha.pipeline import (
+    DEFAULT_DASH,
+    DEFAULT_DB,
+    DEFAULT_INGEST_REPORT,
+    ingest_summary_from_report,
+    run_demo,
+)
 
 FRONTEND = Path(__file__).resolve().parents[2] / "frontend"
-_DISCLOSURE_NOTE = "Signals may only use disclosure_date as event time."
-_SYNTHETIC_INGEST = {
-    "mode": "synthetic",
-    "n_read": 0,
-    "n_accepted": 0,
-    "n_rejected": 0,
-    "reasons": [],
-    "note": "synthetic DGP",
-}
 
 app = FastAPI(title="Congress Alpha", version="0.1.0")
 
@@ -49,30 +45,7 @@ def health():
 
 @app.get("/api/ingest")
 def ingest():
-    path = DEFAULT_INGEST_REPORT
-    if not path.exists():
-        return dict(_SYNTHETIC_INGEST)
-    try:
-        raw = json.loads(path.read_text())
-    except (OSError, json.JSONDecodeError, TypeError):
-        return dict(_SYNTHETIC_INGEST)
-    if not isinstance(raw, dict):
-        return dict(_SYNTHETIC_INGEST)
-    rejected = raw.get("rejected") or []
-    counts: Counter[str] = Counter()
-    if isinstance(rejected, list):
-        for row in rejected:
-            if isinstance(row, dict) and row.get("reason"):
-                counts[str(row["reason"])] += 1
-    note = raw.get("note") or _DISCLOSURE_NOTE
-    return {
-        "mode": "ingested",
-        "n_read": int(raw.get("n_read") or 0),
-        "n_accepted": int(raw.get("n_accepted") or 0),
-        "n_rejected": int(raw.get("n_rejected") or 0),
-        "reasons": [{"reason": reason, "n": n} for reason, n in counts.most_common()],
-        "note": note,
-    }
+    return ingest_summary_from_report(DEFAULT_INGEST_REPORT, on_missing="synthetic")
 
 
 @app.get("/api/dashboard")

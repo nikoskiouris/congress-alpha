@@ -4,6 +4,10 @@ import json
 
 from congress_alpha.brief import write_brief
 from congress_alpha.cli import main
+from congress_alpha.pipeline import (
+    ingest_summary_from_report,
+    synthetic_ingest_summary,
+)
 
 
 def _payload() -> dict:
@@ -93,6 +97,23 @@ def _payload() -> dict:
     }
 
 
+def _ingest_report_payload() -> dict:
+    return {
+        "n_read": 10,
+        "n_accepted": 6,
+        "n_rejected": 4,
+        "rejected": [
+            {"index": 0, "reason": "missing_ticker", "detail": ""},
+            {"index": 1, "reason": "missing_ticker", "detail": ""},
+            {"index": 2, "reason": "amount_unparsed", "detail": ""},
+            {"index": 3, "reason": "options_or_complex", "detail": ""},
+        ],
+        "note": "Signals may only use disclosure_date as event time.",
+        "disclosure_min": "2020-01-01",
+        "disclosure_max": "2024-12-31",
+    }
+
+
 def test_write_brief_contains_required_phrases(tmp_path):
     path = write_brief(_payload(), tmp_path / "research_brief.md")
     text = path.read_text()
@@ -101,8 +122,9 @@ def test_write_brief_contains_required_phrases(tmp_path):
     assert "trade_date never" in text
     assert "conviction" in text
     assert "CONGRESS ALPHA — RESEARCH BRIEF" in text
+    assert "## DATA HYGIENE" in text
     n = text.count("\n") + (0 if text.endswith("\n") else 1)
-    assert 80 <= n <= 150
+    assert 80 <= n <= 180
 
 
 def test_write_brief_ingested_classification(tmp_path):
@@ -111,6 +133,99 @@ def test_write_brief_ingested_classification(tmp_path):
     text = write_brief(payload, tmp_path / "brief.md").read_text()
     assert "INGESTED RESEARCH FILE" in text
     assert "THESE NUMBERS ARE NOT A LIVE TRACK RECORD" in text
+
+
+def test_write_brief_data_hygiene_from_ingest(tmp_path):
+    payload = _payload()
+    payload["mode"] = "ingested"
+    payload["ingest"] = {
+        "mode": "ingested",
+        "n_read": 10,
+        "n_accepted": 6,
+        "n_rejected": 4,
+        "reasons": [
+            {"reason": "missing_ticker", "n": 2},
+            {"reason": "amount_unparsed", "n": 1},
+            {"reason": "options_or_complex", "n": 1},
+        ],
+        "note": "Signals may only use disclosure_date as event time.",
+    }
+    text = write_brief(payload, tmp_path / "brief.md").read_text()
+    assert "## DATA HYGIENE" in text
+    assert "n_read: 10" in text
+    assert "n_accepted: 6" in text
+    assert "n_rejected: 4" in text
+    assert "missing_ticker" in text
+    assert "not alpha" in text.lower()
+    assert "THESE NUMBERS ARE NOT A LIVE TRACK RECORD" in text
+    assert "INGESTED RESEARCH FILE" in text
+    assert "file hygiene" in text.lower()
+
+
+def test_write_brief_defaults_missing_ingest_to_synthetic_zeros(tmp_path):
+    payload = _payload()
+    assert "ingest" not in payload
+    text = write_brief(payload, tmp_path / "brief.md").read_text()
+    assert "## DATA HYGIENE" in text
+    assert "n_read: 0" in text
+    assert "synthetic" in text.lower()
+    assert "THESE NUMBERS ARE NOT A LIVE TRACK RECORD" in text
+    assert "not alpha" in text.lower()
+    assert "SYNTHETIC DEMO" in text
+
+
+def test_synthetic_ingest_summary_shape():
+    body = synthetic_ingest_summary()
+    assert body["mode"] == "synthetic"
+    assert body["n_read"] == 0
+    assert body["n_accepted"] == 0
+    assert body["n_rejected"] == 0
+    assert body["reasons"] == []
+    assert "rejected" not in body
+    note = body["note"].lower()
+    assert "synthetic" in note
+    assert "not a live" in note
+    assert "not alpha" in note
+
+
+def test_ingest_summary_from_report_counts_reasons(tmp_path):
+    path = tmp_path / "ingest_report.json"
+    path.write_text(json.dumps(_ingest_report_payload()))
+    body = ingest_summary_from_report(path)
+    assert body["mode"] == "ingested"
+    assert body["n_read"] == 10
+    assert body["n_accepted"] == 6
+    assert body["n_rejected"] == 4
+    assert body["reasons"][0] == {"reason": "missing_ticker", "n": 2}
+    assert {row["reason"]: row["n"] for row in body["reasons"]} == {
+        "missing_ticker": 2,
+        "amount_unparsed": 1,
+        "options_or_complex": 1,
+    }
+    assert "rejected" not in body
+    assert "disclosure_min" not in body
+    assert "disclosure_max" not in body
+
+
+def test_ingest_summary_missing_is_synthetic(tmp_path):
+    body = ingest_summary_from_report(tmp_path / "missing.json")
+    assert body["mode"] == "synthetic"
+    assert body["n_read"] == 0
+    assert body["n_accepted"] == 0
+    assert body["n_rejected"] == 0
+    assert body["reasons"] == []
+
+
+def test_ingest_summary_missing_ingested_hygiene_unknown(tmp_path):
+    body = ingest_summary_from_report(tmp_path / "missing.json", on_missing="ingested")
+    assert body["mode"] == "ingested"
+    assert body["n_read"] == 0
+    assert body["n_accepted"] == 0
+    assert body["n_rejected"] == 0
+    assert body["reasons"] == []
+    note = body["note"].lower()
+    assert "missing" in note or "hygiene unknown" in note
+    assert "not alpha" in note
 
 
 def test_cli_brief_command(tmp_path):
@@ -124,6 +239,7 @@ def test_cli_brief_command(tmp_path):
     assert "SYNTHETIC" in text
     assert "trade_date never" in text
     assert "conviction" in text
+    assert "## DATA HYGIENE" in text
 
 
 def test_run_from_db_on_fixtures(tmp_path):
@@ -145,19 +261,34 @@ def test_run_from_db_on_fixtures(tmp_path):
         committees_path=repo / "committees.json",
         reset=True,
     )
+    report_path = tmp_path / "ingest_report.json"
+    report_path.write_text(json.dumps(_ingest_report_payload()))
     payload = run_from_db(
         db_path=db,
         dash_path=tmp_path / "dash.json",
         brief_path=tmp_path / "brief.md",
         run_ablations=True,
         start=date(2023, 6, 1),
+        ingest_report_path=report_path,
     )
     assert payload["mode"] == "ingested"
     assert "disclosure_date" in payload["disclaimer"]
+    ingest = payload["ingest"]
+    assert ingest["mode"] == "ingested"
+    assert ingest["n_read"] == 10
+    assert ingest["n_accepted"] == 6
+    assert ingest["n_rejected"] == 4
+    assert ingest["reasons"][0] == {"reason": "missing_ticker", "n": 2}
+    assert "rejected" not in ingest
     assert (tmp_path / "brief.md").exists()
     text = (tmp_path / "brief.md").read_text()
     assert "INGESTED RESEARCH FILE" in text
     assert "trade_date never" in text
+    assert "## DATA HYGIENE" in text
+    assert "n_accepted: 6" in text
+    assert "n_rejected: 4" in text
+    assert "missing_ticker" in text
+    assert "not alpha" in text.lower()
 
 
 def test_run_from_db_rejects_empty_warehouse(tmp_path):
