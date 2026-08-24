@@ -17,3 +17,16 @@ One ticket per `go`. Resume CURRENT if in_progress. Tests must pass or the ticke
 If GitHub requires CI, enable auto-merge on the PR and continue. Do not ping.
 Skip merge only if pytest is red, git/gh is dead, or Director said `stop` in this chat.
 `director_gate: true` means do not pick that ticket on a normal `go`. It is not a merge hold.
+
+## D6 — Frozen files, not scrape-in-the-loop
+Path to a tradable research app is a point-in-time warehouse of public filings, not a broker.
+
+How serious shops store data (copy the discipline, not the stack):
+- They **buy a feed**. They do not scrape websites into CSV all day.
+- **Hot path is local fast disk / memory.** Object stores (S3) are the attic: raw files, backups, research later.
+- History is **frozen snapshots**. Yesterday does not get rewritten when a site is re-hit.
+- Jobs **append** new rows. Serving **reads snapshots**. No refetch on a page load or a “trade”.
+
+This repo now: download → `manifest.json` (url, sha256, fetched_at) → SQLite warehouse on `disclosure_date`. Re-fetch appends. `fetched_at` is wall-clock metadata, not event time.
+
+Not now: S3 as the database, scrape House/Senate HTML on `serve`, live brokerage. Those stay Stage D / CA-009 gate.

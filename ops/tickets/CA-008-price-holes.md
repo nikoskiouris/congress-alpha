@@ -1,7 +1,7 @@
 ---
 id: CA-008
 title: Price holes do not invent returns
-priority: P2
+priority: P1
 status: ready
 type: test
 effort: M
