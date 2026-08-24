@@ -120,4 +120,6 @@ Do not ask "want me to continue?" or "merge this?". Merge already happened, or p
 
 A ticket is real work if it has a test or a visible phone/API change. "Refactor for cleanliness" is not a GO unless tests are impossible to add without it.
 
+Walk toward frozen real filings (Stage B) when inventing. Fake-demo chrome is not a GO if a dump-on-ramp ticket is open.
+
 Forbidden product ideas: copy Pelosi, live brokerage, hide synthetic banner, train on evaluation week, AWS because it sounds enterprise.

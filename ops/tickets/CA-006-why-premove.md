@@ -1,7 +1,7 @@
 ---
 id: CA-006
 title: WHY panel already-moved percent
-priority: P1
+priority: P2
 status: done
 type: feature
 effort: S
@@ -13,7 +13,7 @@ blocked_by: []
 # CA-006 WHY panel already-moved percent
 
 ## Why director
-Phone WHY screen must answer "did this name already move before the filing?" in one number.
+Phone WHY screen must answer "did this name already move before the filing?" in one number. Demoted behind the real-dump on-ramp: Director wants frozen filings before more fake-demo chrome.
 
 ## Why engine
 `explain.py` has positives/negatives text. PremoveDecay is in the formula, not a first-class WHY field.
