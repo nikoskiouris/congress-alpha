@@ -2,6 +2,12 @@
 
 Newest first. One block per GO.
 
+## 2026-08-24 — CA-011 fixture dump on phone
+
+- `make research-file` ingest recorded fixtures then run. Dashboard `mode=ingested`.
+- Phone banner is RESEARCH FILE. Still not a live book. No scrape. No broker.
+- Next GO is CA-012 frozen adj-close snapshot.
+
 ## 2026-08-24 — CA-004 ingest hygiene in research brief
 
 - Dashboard payload now carries `ingest` (accepted/rejected/top reasons). Synthetic demo is zeros, not a live book.

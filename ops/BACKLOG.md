@@ -11,7 +11,7 @@ Director 2026-08-24: path is frozen real filings, not fake-demo forever. Officia
 | CA-002 | P0 | done | research | L | Watcher dump fetch + manifest |
 | CA-003 | P0 | done | test | S | API watermark tests |
 | CA-004 | P1 | done | feature | M | Ingest hygiene in research brief |
-| CA-011 | P1 | ready | feature | M | Fixture dump on phone (RESEARCH FILE path) |
+| CA-011 | P1 | done | feature | M | Fixture dump on phone (RESEARCH FILE path) |
 | CA-012 | P1 | ready | research | L | Frozen adj-close snapshot for dump tickers |
 | CA-008 | P1 | ready | test | M | Price holes do not invent returns |
 | CA-006 | P2 | done | feature | S | WHY panel already-moved % |

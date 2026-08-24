@@ -2,7 +2,7 @@
 id: CA-011
 title: Fixture dump on phone (RESEARCH FILE path)
 priority: P1
-status: ready
+status: done
 type: feature
 effort: M
 merge: auto
@@ -19,10 +19,10 @@ Director: eventually a real production app to trade on. Fake data forever is use
 `fetch`, `ingest`, and `run` exist. Default loop is `demo` (planted DGP). `make ingest-fixture` does not `run`. Leadership cannot screenshot real-shaped filings without a one-command path. No test that fixture ingest + run lights `mode=ingested` on `/api/dashboard`.
 
 ## Done when
-- [ ] One documented command (Makefile or CLI) runs fixture ingest then `run` and writes `data/dashboard.json` with `mode=ingested`
-- [ ] After that command, `/api/dashboard` and the phone banner are RESEARCH FILE, not SYNTHETIC DEMO
-- [ ] Test uses recorded fixtures only (no live network)
-- [ ] Watermark stays. No broker. No live-track-record copy
+- [x] One documented command (Makefile or CLI) runs fixture ingest then `run` and writes `data/dashboard.json` with `mode=ingested`
+- [x] After that command, `/api/dashboard` and the phone banner are RESEARCH FILE, not SYNTHETIC DEMO
+- [x] Test uses recorded fixtures only (no live network)
+- [x] Watermark stays. No broker. No live-track-record copy
 
 ## Likely files
 `Makefile`, `README.md`, `src/congress_alpha/cli.py`, `tests/test_api.py` or `tests/test_pipeline.py`
