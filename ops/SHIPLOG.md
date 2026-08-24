@@ -2,6 +2,12 @@
 
 Newest first. One block per GO.
 
+## 2026-08-24 — CA-004 ingest hygiene in research brief
+
+- Dashboard payload now carries `ingest` (accepted/rejected/top reasons). Synthetic demo is zeros, not a live book.
+- Research brief has DATA HYGIENE. Reject counts are file dirt, not alpha.
+- Next GO is CA-011 fixture dump on phone.
+
 ## 2026-08-24 — CA-006 WHY already-moved percent
 
 - WHY JSON now has `premove_pct`: signed excess vs SPY from trade date to disclosure.

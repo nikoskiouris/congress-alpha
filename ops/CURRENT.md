@@ -2,5 +2,5 @@ ticket: none
 status: idle
 branch: none
 started: none
-next: CA-004
-notes: CA-006 shipped. Director 2026-08-24 — walk to frozen real filings. Next GO is ingest hygiene, then fixture dump on phone, then frozen prices. Official scrape still gated. No scrape this chat.
+next: CA-011
+notes: CA-004 shipped. Director 2026-08-24 — walk to frozen real filings. Next GO is fixture dump on phone, then frozen prices. Official scrape still gated. No scrape this chat.
