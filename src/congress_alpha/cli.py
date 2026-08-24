@@ -71,6 +71,19 @@ def main(argv: list[str] | None = None) -> int:
     run.add_argument("--dash", type=Path, default=Path("data/dashboard.json"))
     run.add_argument("--brief", type=Path, default=Path("data/research_brief.md"))
 
+    research = sub.add_parser(
+        "research-file",
+        help="Ingest recorded fixtures then run (RESEARCH FILE, not a live book)",
+    )
+    research.add_argument("--db", type=Path, default=Path("data/congress_alpha.db"))
+    research.add_argument("--dash", type=Path, default=Path("data/dashboard.json"))
+    research.add_argument("--brief", type=Path, default=Path("data/research_brief.md"))
+    research.add_argument(
+        "--ingest-report",
+        type=Path,
+        default=Path("data/ingest_report.json"),
+    )
+
     br = sub.add_parser("brief", help="Write the research memo from dashboard JSON")
     br.add_argument("--dash", type=Path, default=Path("data/dashboard.json"))
     br.add_argument("--out", type=Path, default=Path("data/research_brief.md"))
@@ -175,6 +188,22 @@ def main(argv: list[str] | None = None) -> int:
         _print_metrics(payload)
         print()
         print("wrote", args.dash, "and", args.brief)
+        return 0
+
+    if args.cmd == "research-file":
+        from congress_alpha.pipeline import run_fixture_dump
+
+        payload = run_fixture_dump(
+            db_path=args.db,
+            dash_path=args.dash,
+            brief_path=args.brief,
+            ingest_report_path=args.ingest_report,
+        )
+        _print_metrics(payload)
+        print()
+        print("mode", payload.get("mode"))
+        print("wrote", args.dash, "and", args.brief)
+        print("RESEARCH FILE — not a live track record, not a broker")
         return 0
 
     if args.cmd == "brief":

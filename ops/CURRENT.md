@@ -1,6 +1,6 @@
-ticket: none
-status: idle
-branch: none
-started: none
+ticket: CA-011
+status: in_progress
+branch: cursor/ca-011-dump-on-phone-d2c5
+started: 2026-08-24
 next: CA-011
-notes: CA-004 shipped. Director 2026-08-24 — walk to frozen real filings. Next GO is fixture dump on phone, then frozen prices. Official scrape still gated. No scrape this chat.
+notes: Fixture dump on phone. Recorded fixtures only. No House/Senate scrape. Not a broker. Not a live book.
