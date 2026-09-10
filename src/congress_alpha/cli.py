@@ -99,6 +99,13 @@ def main(argv: list[str] | None = None) -> int:
     )
     fetch.add_argument("--out", type=Path, default=Path("data/raw"))
 
+    prices = sub.add_parser(
+        "fetch-prices",
+        help="Download frozen adj-close CSV + manifest for dump tickers (not a live book)",
+    )
+    prices.add_argument("--trades", type=Path, required=True)
+    prices.add_argument("--out", type=Path, default=Path("data/raw/prices"))
+
     args = parser.parse_args(argv)
 
     if args.cmd == "demo":
@@ -223,6 +230,23 @@ def main(argv: list[str] | None = None) -> int:
             manifest = fetch_watcher(args.source, args.out)
         except (ValueError, OSError, URLError, json.JSONDecodeError) as exc:
             print(f"fetch failed: {exc}", file=sys.stderr)
+            return 1
+        out = Path(args.out)
+        print("wrote", out / manifest["filename"])
+        print("wrote", out / "manifest.json")
+        print("sha256", manifest["sha256"])
+        print(manifest["note"])
+        return 0
+
+    if args.cmd == "fetch-prices":
+        from urllib.error import URLError
+
+        from congress_alpha.prices_fetch import fetch_prices
+
+        try:
+            manifest = fetch_prices(args.trades, args.out)
+        except (ValueError, OSError, URLError, json.JSONDecodeError) as exc:
+            print(f"fetch-prices failed: {exc}", file=sys.stderr)
             return 1
         out = Path(args.out)
         print("wrote", out / manifest["filename"])

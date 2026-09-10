@@ -2,7 +2,7 @@
 id: CA-012
 title: Frozen adj-close snapshot for dump tickers
 priority: P1
-status: ready
+status: in_progress
 type: research
 effort: L
 merge: auto

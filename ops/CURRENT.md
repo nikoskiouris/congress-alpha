@@ -1,6 +1,6 @@
-ticket: none
-status: idle
-branch: none
-started: none
+ticket: CA-012
+status: in_progress
+branch: cursor/ca-012-frozen-prices-5c04
+started: 2026-09-10
 next: CA-012
-notes: CA-011 shipped. Director 2026-08-24 — walk to frozen real filings. Next GO is frozen adj-close snapshot. Official scrape still gated. No scrape this chat.
+notes: Frozen adj-close snapshot for dump tickers. No Clerk scrape. No live Yahoo in pytest. SQLite stays the warehouse.
