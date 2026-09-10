@@ -12,7 +12,7 @@ It never pretends it could have bought on `trade_date`. Senate/House PTRs can le
 
 - V1 engine: done (event-time, costs, next-session, PIT event study)
 - Live congressional alpha: NOT measured (demo is a planted DGP)
-- This sprint: **frozen real-dump on-ramp** (ingest hygiene → fixture on phone → frozen prices). Official House/Senate scrape still gated. Not a broker.
+- This sprint: **frozen real-dump on-ramp** (frozen adj-close snapshot shipped; next is price holes). Official House/Senate scrape still gated. Not a broker.
 - Company demo: `python -m congress_alpha demo` then `serve`; read `data/research_brief.md`
 - Future map: [What's next](#whats-next-future-map)
 
@@ -106,6 +106,8 @@ tests/                   look-ahead, skill recovery, ingest, ablations
 ## Real filings later
 
 House Clerk public financial disclosures and Senate eFD/PTR systems are the legal source. `python -m congress_alpha fetch --source house-watcher --out data/raw/` (or `senate-watcher`) writes a **convenience dump** plus `manifest.json` (`fetched_at`, source URL, sha256); it does not rename `disclosure_date`. `congress_alpha.ingest` can read that JSON still keyed on `disclosure_date`. Do not train on `transaction_date`.
+
+`python -m congress_alpha fetch-prices --trades data/raw/house_watcher_transactions.json --out data/raw/prices` writes a **convenience adj-close CSV** plus `manifest.json` (`fetched_at`, source, sha256) for tickers in that dump. Vendor bytes are stored under `raw/`. The warehouse stays SQLite. This is not a live book and not a scrape on page load. Missing sessions are omitted; they are not filled on `trade_date`. CI uses a recorded fixture, not live Yahoo.
 
 ```bash
 make research-file

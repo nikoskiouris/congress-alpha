@@ -2,6 +2,12 @@
 
 Newest first. One block per GO.
 
+## 2026-09-10 — CA-012 frozen adj-close snapshot
+
+- `python -m congress_alpha fetch-prices` writes `prices.csv` + `manifest.json` (fetched_at, source, sha256) for dump tickers.
+- Vendor bytes frozen under `raw/`. No `disclosure_date` rename. No fill on `trade_date`. Still RESEARCH FILE.
+- Next GO is CA-008 price holes do not invent returns.
+
 ## 2026-08-24 — CA-011 fixture dump on phone
 
 - `make research-file` ingest recorded fixtures then run. Dashboard `mode=ingested`.
