@@ -137,6 +137,16 @@ def test_parse_skips_null_adj_close_no_fill():
     assert rows == [("LMT", "2023-06-05", "1.5")]
 
 
+def test_parse_stooq_close_when_no_adj_close_column():
+    body = (
+        "Date,Open,High,Low,Close,Volume\n"
+        "2023-06-05,1,1,1,2.25,10\n"
+        "2023-06-06,1,1,1,,10\n"
+    ).encode()
+    rows = parse_adj_close_csv(body, "SPY")
+    assert rows == [("SPY", "2023-06-05", "2.25")]
+
+
 def test_cli_fetch_prices_uses_recorded_fixture(tmp_path, monkeypatch):
     monkeypatch.setattr(
         "congress_alpha.prices_fetch.http_get",

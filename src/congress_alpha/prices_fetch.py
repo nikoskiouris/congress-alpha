@@ -97,6 +97,8 @@ def parse_adj_close_csv(body: bytes, default_ticker: str) -> list[tuple[str, str
     """Parse vendor or warehouse CSV. Skip empty adj_close. Do not fill holes."""
     text = body.decode("utf-8-sig")
     reader = csv.DictReader(io.StringIO(text))
+    headers = {_norm_header(h or "") for h in (reader.fieldnames or [])}
+    has_adj = "adj_close" in headers
     rows: list[tuple[str, str, str]] = []
     for raw in reader:
         if not raw:
@@ -105,7 +107,7 @@ def parse_adj_close_csv(body: bytes, default_ticker: str) -> list[tuple[str, str
         ticker = (normalized.get("ticker") or default_ticker or "").strip().upper()
         session = str(normalized.get("date") or "")[:10]
         px = normalized.get("adj_close")
-        if px in (None, ""):
+        if not has_adj:
             px = normalized.get("close")
         if not ticker or not session or px in (None, "", "null", "none"):
             continue
