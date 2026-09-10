@@ -2,7 +2,7 @@
 id: CA-012
 title: Frozen adj-close snapshot for dump tickers
 priority: P1
-status: in_progress
+status: done
 type: research
 effort: L
 merge: auto
@@ -19,11 +19,11 @@ Director wants real filings on the path to a tradable research app. Watcher JSON
 `ingest` requires `--prices` CSV. `fetch` only writes watcher JSON. There is no recorded as-of price snapshot + manifest. Live Yahoo inside the backtest is look-ahead. Missing sessions must not become 0% returns (see CA-008).
 
 ## Done when
-- [ ] CLI writes adj-close CSV + `manifest.json` (`fetched_at`, source, sha256) for tickers in a trades file
-- [ ] Bytes frozen as received; job does not rename `disclosure_date` or fill on `trade_date`
-- [ ] CI test uses a tiny recorded fixture, no live network
-- [ ] README: convenience prices, not a live book; warehouse stays SQLite
-- [ ] After ingest+run, output still watermarked RESEARCH FILE
+- [x] CLI writes adj-close CSV + `manifest.json` (`fetched_at`, source, sha256) for tickers in a trades file
+- [x] Bytes frozen as received; job does not rename `disclosure_date` or fill on `trade_date`
+- [x] CI test uses a tiny recorded fixture, no live network
+- [x] README: convenience prices, not a live book; warehouse stays SQLite
+- [x] After ingest+run, output still watermarked RESEARCH FILE
 
 ## Likely files
 `src/congress_alpha/cli.py`, new `src/congress_alpha/prices_fetch.py` (or extend `fetch.py`), `tests/test_fetch.py` or new test, `README.md`

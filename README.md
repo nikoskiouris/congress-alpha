@@ -12,7 +12,7 @@ It never pretends it could have bought on `trade_date`. Senate/House PTRs can le
 
 - V1 engine: done (event-time, costs, next-session, PIT event study)
 - Live congressional alpha: NOT measured (demo is a planted DGP)
-- This sprint: **frozen real-dump on-ramp** (fixture dump on phone shipped; frozen adj-close snapshot in flight). Official House/Senate scrape still gated. Not a broker.
+- This sprint: **frozen real-dump on-ramp** (frozen adj-close snapshot shipped; next is price holes). Official House/Senate scrape still gated. Not a broker.
 - Company demo: `python -m congress_alpha demo` then `serve`; read `data/research_brief.md`
 - Future map: [What's next](#whats-next-future-map)
 
